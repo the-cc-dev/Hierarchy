@@ -477,26 +477,7 @@ Hierarchy requires **PHP 5.5+** and [Composer](https://getcomposer.org/) to be i
 
 # Installation
 
-Best served by Composer, available on Packagist with name [`gmazzap/hierarchy`](https://packagist.org/packages/gmazzap/hierarchy).
-
- 
-# Updating from 0.x releases
-
-The 1.x versions are **incompatible** with 0.x releases.
-
-Generally speaking:
-
- - `Hierarchy` class namespace has been changed from `GM` to `GM\Hierarchy`
-    (so fully-qualified class name changed from `GM\Hierarchy` to `GM\Hierarchy\Hierarchy`)
- - `Hierarchy::get()` is replaced by `Hierarchy::getHierarchy()`
- - `Hierarchy::getFlat()` is replaced by `Hierarchy::getTemplates()`
- - `Hierarchy::findTemplateUsing()` is removed, template finding / loading is done via the new `QueryTemplate` class
- 
-### 0.x Maintenance
-
-I'll try to update 0.x releases, if any bug is found or if something is changed in WordPress 
-(e.g. when the new `singular.php` template was added), but I will not add new features there.
-
+Best served by Composer, available on Packagist with name [`brain/hierarchy`](https://packagist.org/packages/brain/hierarchy).
 
 # License
 
