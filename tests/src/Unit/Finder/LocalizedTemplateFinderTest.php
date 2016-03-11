@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests\Unit\Finder;
+namespace Brain\Hierarchy\Tests\Unit\Finder;
 
 use Brain\Monkey\Functions;
-use GM\Hierarchy\Finder\CallbackTemplateFinder;
-use GM\Hierarchy\Finder\LocalizedTemplateFinder;
-use GM\Hierarchy\Tests\TestCase;
+use Brain\Hierarchy\Finder\CallbackTemplateFinder;
+use Brain\Hierarchy\Finder\LocalizedTemplateFinder;
+use Brain\Hierarchy\Tests\TestCase;
 
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>

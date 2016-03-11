@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests\Unit;
+namespace Brain\Hierarchy\Tests\Unit;
 
-use GM\Hierarchy\Tests\TestCase;
-use GM\Hierarchy\Tests\Stubs;
-use GM\Hierarchy\Branch\BranchInterface;
-use GM\Hierarchy\Hierarchy;
+use Brain\Hierarchy\Tests\TestCase;
+use Brain\Hierarchy\Tests\Stubs;
+use Brain\Hierarchy\Branch\BranchInterface;
+use Brain\Hierarchy\Hierarchy;
 
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>

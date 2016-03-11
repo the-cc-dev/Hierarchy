@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy;
+namespace Brain\Hierarchy;
 
-use GM\Hierarchy\Finder\FoldersTemplateFinder;
-use GM\Hierarchy\Finder\TemplateFinderInterface;
-use GM\Hierarchy\Loader\FileRequireLoader;
-use GM\Hierarchy\Loader\TemplateLoaderInterface;
+use Brain\Hierarchy\Finder\FoldersTemplateFinder;
+use Brain\Hierarchy\Finder\TemplateFinderInterface;
+use Brain\Hierarchy\Loader\FileRequireLoader;
+use Brain\Hierarchy\Loader\TemplateLoaderInterface;
 
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>

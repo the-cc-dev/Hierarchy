@@ -76,7 +76,7 @@ Example:
 ```php
 global $wp_query; // we will show template hierarchy for the main query
 
-$hierarchy = new GM\Hierarchy\Hierarchy();
+$hierarchy = new Brain\Hierarchy\Hierarchy();
 
 var_export( $hierarchy->getHierarchy($wp_query) );
 ```
@@ -108,7 +108,7 @@ It can be simply answered using the `getTemplates()` method:
 ```php
 global $wp_query; // we will target the main query
 
-$hierarchy = new GM\Hierarchy\Hierarchy();
+$hierarchy = new Brain\Hierarchy\Hierarchy();
 
 var_export( $hierarchy->getTemplates($wp_query) );
 ```
@@ -138,7 +138,7 @@ All the code necessary to load those templates according to template hierarchy i
 ```php
 add_action( 'template_redirect', function() {
 
-    $templates = ( new GM\Hierarchy\Hierarchy() )->getTemplates();
+    $templates = ( new Brain\Hierarchy\Hierarchy() )->getTemplates();
     
     foreach( $templates as $template ) {
       $path = get_template_directory() . "/templates/{$template}.phtml";
@@ -166,7 +166,7 @@ add_action( 'template_redirect', function() {
 
     global $wp_query;
     
-    $queryTemplate = \GM\Hierarchy\QueryTemplate();
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate();
     
     echo $queryTemplate->loadTemplate( $wp_query );
     
@@ -197,7 +197,7 @@ Moreover, this feature can be used to alter the content before to output it:
 ```php
 add_action( 'template_redirect', function() {
 
-    $queryTemplate = \GM\Hierarchy\QueryTemplate();
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate();
         
     // if no WP_Query object is passed to loadTemplate(), the global $wp_query is used
     $content = $queryTemplate->loadTemplate();
@@ -239,13 +239,13 @@ Example:
 ```php
 add_action( 'template_redirect', function() {
 
-    $finder = \GM\Hierarchy\Finder\FoldersTemplateFinder([
+    $finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder([
        __DIR__,
        get_stylesheet_directory(),
        get_template_directory(),
     ]);
     
-    $queryTemplate = \GM\Hierarchy\QueryTemplate( $finder );  
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );  
       
     echo $queryTemplate->loadTemplate();
     
@@ -263,7 +263,7 @@ it is searched in theme and parent theme folders.
 use a different files extension, passing it as second constructor argument:
 
 ```php
-$finder = \GM\Hierarchy\Finder\FoldersTemplateFinder(
+$finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
     [ get_stylesheet_directory(), get_template_directory() ],
     '.phtml'
 );
@@ -277,9 +277,9 @@ is a specific subfolder of theme (and parent theme) and use theme (and parent th
 ```php
 add_action( 'template_redirect', function() {
 
-    $finder = \GM\Hierarchy\Finder\SubfolderTemplateFinder( 'templates' );
+    $finder = \Brain\Hierarchy\Finder\SubfolderTemplateFinder( 'templates' );
     
-    $queryTemplate = \GM\Hierarchy\QueryTemplate( $finder ); 
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
     
     echo $queryTemplate->loadTemplate();
     exit();
@@ -307,11 +307,11 @@ the current locale:
 add_action( 'template_redirect', function() {
 
     // if no folders provided, theme and parent theme folders are used
-    $foldersFinder = new \GM\Hierarchy\Finder\FoldersTemplateFinder();
+    $foldersFinder = new \Brain\Hierarchy\Finder\FoldersTemplateFinder();
     
-    $finder = new \GM\Hierarchy\Finder\LocalizedTemplateFinder( $foldersFinder );
+    $finder = new \Brain\Hierarchy\Finder\LocalizedTemplateFinder( $foldersFinder );
     
-    $queryTemplate = \GM\Hierarchy\QueryTemplate( $finder ); 
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
     
     echo $queryTemplate->loadTemplate();
     exit();
@@ -339,9 +339,9 @@ add_action( 'template_redirect', function() {
     $symfonyFinder = new \Symfony\Component\Finder\Finder();
     $symfonyFinder = $symfonyFinder->files()->in( __DIR__ )->name( '*.phtml' );
     
-    $finder = new \GM\Hierarchy\Finder\SymfonyFinderAdapter( $symfonyFinder );
+    $finder = new \Brain\Hierarchy\Finder\SymfonyFinderAdapter( $symfonyFinder );
     
-    $queryTemplate = \GM\Hierarchy\QueryTemplate( $finder ); 
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
     
     echo $queryTemplate->loadTemplate();
     exit();
@@ -366,9 +366,9 @@ add_action( 'template_redirect', function() {
        return realpath(__DIR__ . $template . '.php') ? : '';
     };
     
-    $finder = new \GM\Hierarchy\Finder\CallbackTemplateFinder( $callback );
+    $finder = new \Brain\Hierarchy\Finder\CallbackTemplateFinder( $callback );
     
-    $queryTemplate = \GM\Hierarchy\QueryTemplate( $finder ); 
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
     
     echo $queryTemplate->loadTemplate();
     exit();
@@ -420,8 +420,8 @@ templates according to WordPress template hierarchy.
 ```php
 namespace My\Theme;
 
-use GM\Hierarchy\Finder\SubfolderTemplateFinder;
-use GM\Hierarchy\Loader\TemplateLoaderInterface;
+use Brain\Hierarchy\Finder\SubfolderTemplateFinder;
+use Brain\Hierarchy\Loader\TemplateLoaderInterface;
 use Mustache_Engine;
 
 class MustacheTemplateLoader implements TemplateLoaderInterface
@@ -453,7 +453,7 @@ add_action( 'template_redirect', function() {
     // make use of the class above
     $loader = new MustacheTemplateLoader( new Mustache_Engine() ); 
     
-    $queryTemplate = \GM\Hierarchy\QueryTemplate( $finder, $loader ); 
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder, $loader ); 
     
     // 3rd argument of loadTemplate() is passed by reference, and is set to true if template is found
     $found = false;

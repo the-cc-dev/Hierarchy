@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests\Unit\Branch;
+namespace Brain\Hierarchy\Tests\Unit\Branch;
 
 use Brain\Monkey\Functions;
-use GM\Hierarchy\Branch\BranchPage;
-use GM\Hierarchy\Tests\TestCase;
+use Brain\Hierarchy\Branch\BranchPage;
+use Brain\Hierarchy\Tests\TestCase;
 use Mockery;
 
 /**

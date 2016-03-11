@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests\Functional;
+namespace Brain\Hierarchy\Tests\Functional;
 
 use Brain\Monkey\Functions;
-use GM\Hierarchy\Finder\FoldersTemplateFinder;
-use GM\Hierarchy\Finder\LocalizedTemplateFinder;
-use GM\Hierarchy\Finder\SymfonyFinderAdapter;
-use GM\Hierarchy\QueryTemplate;
-use GM\Hierarchy\Tests\TestCase;
+use Brain\Hierarchy\Finder\FoldersTemplateFinder;
+use Brain\Hierarchy\Finder\LocalizedTemplateFinder;
+use Brain\Hierarchy\Finder\SymfonyFinderAdapter;
+use Brain\Hierarchy\QueryTemplate;
+use Brain\Hierarchy\Tests\TestCase;
 use Mockery;
 use Symfony\Component\Finder\Finder;
 

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Finder;
+namespace Brain\Hierarchy\Finder;
 
 /**
  * Very similar the way WordPress core works, however, it allows to search templates in a subfolder

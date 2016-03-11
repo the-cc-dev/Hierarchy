@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Loader;
+namespace Brain\Hierarchy\Loader;
 
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
