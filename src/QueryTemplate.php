@@ -23,18 +23,18 @@ use Brain\Hierarchy\Loader\TemplateLoaderInterface;
 final class QueryTemplate implements QueryTemplateInterface
 {
     /**
-     * @var \GM\Hierarchy\Finder\TemplateFinderInterface
+     * @var \Brain\Hierarchy\Finder\TemplateFinderInterface
      */
     private $finder;
 
     /**
-     * @var \GM\Hierarchy\Loader\TemplateLoaderInterface
+     * @var \Brain\Hierarchy\Loader\TemplateLoaderInterface
      */
     private $loader;
 
     /**
-     * @param  \GM\Hierarchy\Loader\TemplateLoaderInterface|null $loader
-     * @return \GM\Hierarchy\QueryTemplate
+     * @param  \Brain\Hierarchy\Loader\TemplateLoaderInterface|null $loader
+     * @return \Brain\Hierarchy\QueryTemplate
      */
     public static function instanceWithLoader(TemplateLoaderInterface $loader = null)
     {
@@ -42,9 +42,9 @@ final class QueryTemplate implements QueryTemplateInterface
     }
 
     /**
-     * @param  array                                             $folders
-     * @param  \GM\Hierarchy\Loader\TemplateLoaderInterface|null $loader
-     * @return \GM\Hierarchy\QueryTemplate
+     * @param  array                                                $folders
+     * @param  \Brain\Hierarchy\Loader\TemplateLoaderInterface|null $loader
+     * @return \Brain\Hierarchy\QueryTemplate
      */
     public static function instanceWithFolders(
         array $folders,
@@ -70,8 +70,8 @@ final class QueryTemplate implements QueryTemplateInterface
     }
 
     /**
-     * @param \GM\Hierarchy\Finder\TemplateFinderInterface|null $finder
-     * @param \GM\Hierarchy\Loader\TemplateLoaderInterface      $loader
+     * @param \Brain\Hierarchy\Finder\TemplateFinderInterface|null $finder
+     * @param \Brain\Hierarchy\Loader\TemplateLoaderInterface      $loader
      */
     public function __construct(
         TemplateFinderInterface $finder = null,

@@ -92,7 +92,7 @@ class Hierarchy
      */
     private function parseBranch(\stdClass $data, $branchClass)
     {
-        /** @var \GM\Hierarchy\Branch\BranchInterface $branch */
+        /** @var \Brain\Hierarchy\Branch\BranchInterface $branch */
         $branch = new $branchClass();
         $name = $branch->name();
         if ($branch->is($data->query) && ! isset($data->hierarchy[$name])) {

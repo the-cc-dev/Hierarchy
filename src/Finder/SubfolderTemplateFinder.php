@@ -21,7 +21,7 @@ namespace Brain\Hierarchy\Finder;
 final class SubfolderTemplateFinder implements TemplateFinderInterface
 {
     /**
-     * @var \GM\Hierarchy\Finder\FoldersTemplateFinder
+     * @var \Brain\Hierarchy\Finder\FoldersTemplateFinder
      */
     private $finder;
 

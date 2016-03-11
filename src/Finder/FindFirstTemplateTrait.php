@@ -23,7 +23,7 @@ trait FindFirstTemplateTrait
      * @param  array  $templates
      * @param  string $type
      * @return string
-     * @see \GM\Hierarchy\Finder\TemplateFinderInterface::findFirst()
+     * @see \Brain\Hierarchy\Finder\TemplateFinderInterface::findFirst()
      */
     public function findFirst(array $templates, $type)
     {

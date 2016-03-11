@@ -41,12 +41,12 @@ final class LocalizedTemplateFinder implements TemplateFinderInterface
     private $folders = [];
 
     /**
-     * @var \GM\Hierarchy\Finder\FoldersTemplateFinder
+     * @var \Brain\Hierarchy\Finder\FoldersTemplateFinder
      */
     private $finder;
 
     /**
-     * @param \GM\Hierarchy\Finder\TemplateFinderInterface $finder
+     * @param \Brain\Hierarchy\Finder\TemplateFinderInterface $finder
      */
     public function __construct(TemplateFinderInterface $finder = null)
     {
