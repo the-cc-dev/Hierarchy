@@ -8,16 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests\Unit;
+namespace Brain\Hierarchy\Tests\Unit;
 
 use Andrew\Proxy;
 use Brain\Monkey\WP\Filters;
 use Brain\Monkey\Functions;
-use GM\Hierarchy\QueryTemplate;
-use GM\Hierarchy\Tests\TestCase;
-use GM\Hierarchy\Finder\TemplateFinderInterface;
-use GM\Hierarchy\Loader\TemplateLoaderInterface;
-use GM\Hierarchy\Finder\FoldersTemplateFinder;
+use Brain\Hierarchy\QueryTemplate;
+use Brain\Hierarchy\Tests\TestCase;
+use Brain\Hierarchy\Finder\TemplateFinderInterface;
+use Brain\Hierarchy\Loader\TemplateLoaderInterface;
+use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use Mockery;
 
 /**

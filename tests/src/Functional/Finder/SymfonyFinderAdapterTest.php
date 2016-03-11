@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests\Functional\Finder;
+namespace Brain\Hierarchy\Tests\Functional\Finder;
 
 use Brain\Monkey\Functions;
-use GM\Hierarchy\Finder\SymfonyFinderAdapter;
-use GM\Hierarchy\Tests\TestCase;
+use Brain\Hierarchy\Finder\SymfonyFinderAdapter;
+use Brain\Hierarchy\Tests\TestCase;
 
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>

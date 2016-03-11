@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests;
+namespace Brain\Hierarchy\Tests;
 
 use Andrew\StaticProxy;
 use PHPUnit_Framework_TestCase;

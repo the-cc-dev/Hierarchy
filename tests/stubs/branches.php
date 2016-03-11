@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Tests\Stubs;
+namespace Brain\Hierarchy\Tests\Stubs;
 
-use GM\Hierarchy\Branch\BranchInterface;
+use Brain\Hierarchy\Branch\BranchInterface;
 
 class BranchStubFoo implements BranchInterface
 {

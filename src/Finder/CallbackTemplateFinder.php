@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace GM\Hierarchy\Finder;
+namespace Brain\Hierarchy\Finder;
 
 /**
  * A wrapper around a callback. Useful for tests and quick and dirty customizations.
