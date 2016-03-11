@@ -22,7 +22,6 @@ use Brain\Hierarchy\Hierarchy;
  */
 class HierarchyTest extends TestCase
 {
-
     public function testParse()
     {
         $hierarchy = new Hierarchy();
