@@ -36,7 +36,6 @@ class Hierarchy
         Branch\BranchAuthor::class,
         Branch\BranchDate::class,
         Branch\BranchArchive::class,
-        Branch\BranchComments::class,
         Branch\BranchPaged::class,
     ];
 
