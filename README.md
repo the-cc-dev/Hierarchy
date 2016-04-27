@@ -23,7 +23,7 @@ Hierarchy
   - [Edit template content before to output](#edit-template-content-before-to-output)
   - [Template Finders](#template-finders)
     - [`FoldersTemplateFinder`](#folderstemplatefinder)
-      - [Custom file extension](#custom-file-extension)
+      - [Custom file extensions](#custom-file-extensions)
     - [`SubfolderTemplateFinder`](#subfoldertemplatefinder)
     - [`LocalizedTemplateFinder`](#localizedtemplatefinder)
     - [`SymfonyFinderAdapter`](#symfonyfinderadapter)
@@ -257,17 +257,27 @@ add_action( 'template_redirect', function() {
 The snippet above will search for templates in the current folder and if template is not found there,
 it is searched in theme and parent theme folders.
 
-##### Custom file extension
+##### Custom file extensions
 
-`FoldersTemplateFinder` class, by default, searches for files with `.php` extension, but is possible to 
-use a different files extension, passing it as second constructor argument:
+`FoldersTemplateFinder` class, by default, searches for files with `.php` extension, but it is possible to
+use different file extensions, by passing them as a second constructor argument (either a string or an array of strings):
 
 ```php
-$finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
+// This will look for *.phtml files.
+$phtml_finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
     [ get_stylesheet_directory(), get_template_directory() ],
-    '.phtml'
+    'phtml'
+);
+
+// This will look for Twig files first, and fall back to standard PHP files if
+// no matching Twig file was found.
+$twig_finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
+    [ get_stylesheet_directory(), get_template_directory() ],
+    [ 'twig', 'php' ]
 );
 ```
+
+Note that custom extensions are case insensitive and that can be passed with or without trailing dot.
 
 #### `SubfolderTemplateFinder`
 
@@ -278,9 +288,9 @@ is a specific subfolder of theme (and parent theme) and use theme (and parent th
 add_action( 'template_redirect', function() {
 
     $finder = \Brain\Hierarchy\Finder\SubfolderTemplateFinder( 'templates' );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -292,10 +302,10 @@ Using code above the templates are searched, in order, in:
  - /path/to/parent/theme/templates/
  - /path/to/child/theme/
  - /path/to/parent/theme/
- 
-`SubfolderTemplateFinder`, just like `FoldersTemplateFinder`, accepts a custom file extension as second 
+
+`SubfolderTemplateFinder`, just like `FoldersTemplateFinder`, accepts custom file extensions as second
 constructor argument.
- 
+
 
 #### `LocalizedTemplateFinder`
 
@@ -308,11 +318,11 @@ add_action( 'template_redirect', function() {
 
     // if no folders provided, theme and parent theme folders are used
     $foldersFinder = new \Brain\Hierarchy\Finder\FoldersTemplateFinder();
-    
+
     $finder = new \Brain\Hierarchy\Finder\LocalizedTemplateFinder( $foldersFinder );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -325,9 +335,9 @@ Assuming the current locale is `it_IT`, using code above, the templates are sear
  - /path/to/child/theme/it/
  - /path/to/parent/theme/it/
  - /path/to/child/theme/
- - /path/to/parent/theme/ 
- 
- 
+ - /path/to/parent/theme/
+
+
 #### `SymfonyFinderAdapter`
 
 This class allows to use the [Symfony Finder Component](http://symfony.com/doc/current/components/finder.html)
@@ -338,11 +348,11 @@ add_action( 'template_redirect', function() {
 
     $symfonyFinder = new \Symfony\Component\Finder\Finder();
     $symfonyFinder = $symfonyFinder->files()->in( __DIR__ )->name( '*.phtml' );
-    
+
     $finder = new \Brain\Hierarchy\Finder\SymfonyFinderAdapter( $symfonyFinder );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -354,7 +364,7 @@ This class can be used to easily integrate 3rd party different loaders with `Que
 
 In fact, you need to provide an arbitrary callback that will be called to find templates.
 
-The callback will receive the template name without file extension, e.g. `index` and has to return 
+The callback will receive the template name without file extension, e.g. `index` and has to return
 the full path of the template if found, or an empty string if the template is not found.
 
 Example:
@@ -362,14 +372,14 @@ Example:
 ```php
 add_action( 'template_redirect', function() {
 
-    $callback = function( $template ) {       
+    $callback = function( $template ) {
        return realpath(__DIR__ . $template . '.php') ? : '';
     };
-    
+
     $finder = new \Brain\Hierarchy\Finder\CallbackTemplateFinder( $callback );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -380,7 +390,7 @@ add_action( 'template_redirect', function() {
 When WordPress searches for a template in `template-loader.php`, it triggers different filters in the form of
 [`{$type}_template`](https://developer.wordpress.org/reference/hooks/type_template/); examples are
  *'single_template'*. *'page_template'* and so on.
-  
+
 Moreover, the found template passes through the [*'template_include'*](https://developer.wordpress.org/reference/hooks/template_include/) filter.
 
 By default, **`QueryTemplate::loadTemplate()` applies same filters**, to maximize compatibility with core
@@ -412,6 +422,85 @@ Template loaders can be passed as second constructor argument to `QueryTemplate`
 This is the unique loader class that ships with the library, and it provides the default behavior.
 
 
+## Aggregate Loaders
+
+Aggregate loaders uses different "inner" loaders to load templates.
+
+Aggregate loaders have to implement the interface `AggregateTemplateLoaderInterface` that has 2 methods:
+
+- `addLoader(TemplateLoaderInterface $loader, callable $predicate)`
+- `addLoaderFactory(callable $loaderFactory, callable $predicate)`
+
+The first is used to add a template loader instance. The second is used to add a factory callback
+that once called will return a template loader instance. It is useful when the loader instantiation
+is resource expensive to avoid unnecessary instantiation, that is only done if required (_lazy_).
+
+Both methods accept as second argument a "predicate": a callback that will receive the path of the 
+template file to load and will return a boolean.
+
+When the predicate returns `true`, the related loader is used to load the template.
+
+#### `CascadeAggregateTemplateLoader`
+
+`CascadeAggregateTemplateLoader` is a simple implementation of an aggregate loader, where the predicates
+are evaluated in the same order they are added (FIFO).
+
+
+#### `ExtensionMapTemplateLoader`
+
+`ExtensionMapTemplateLoader` is another aggregate loader implementation shipped with Hierarchy.
+
+It is used to load different loaders based on template file extension.
+
+It requires an extensions-to-loaders "map" to be passed to constructor.
+
+The map keys are the template file extensions, the values are the loader to be used.
+
+Loaders can be passed as:
+
+- template loader instances
+- template loader fully qualified class names
+- factory callbacks that once called return template loader instances
+
+The same loader can be used for multiple file extensions, using as map key a string composed by many
+file extensions separated by a pipe `|`.
+
+In any case file extensions are case insensitive and can be passed with or without leading dot.
+
+Example:
+
+```php
+$loader = new ExtensionMapTemplateLoader([
+    'php|phtml' => new FileRequireLoader(),
+    'mustache'  => function() { return new MyMustacheAdapter(new Mustache_Engine); },
+    'md'        => MyMarkdownRenderer::class
+]);
+```
+
+After the `ExtensionMapTemplateLoader` is obtained, it is possible to add more loaders using
+`addLoader()` and `addLoaderFactory()` methods that are part of the aggregate loader interface.
+
+In this case may comes handy the class `FileExtensionPredicate`, it is an invokable object that once
+executed passing a file path to it, return a boolean if file extension is supported. Supported extension(s)
+can be configured via constructor. It accepts single extension as string and multiple extensions
+as array or pipe-separated string.
+
+Example:
+
+```php
+$loader = new ExtensionMapTemplateLoader(['php|phtml' => new FileRequireLoader()]);
+
+$loader->addLoader(
+    new MyMarkdownRenderer(),
+    new FileExtensionPredicate('md')
+);
+
+$loader->addLoaderFactory(
+    function() { return new MyMustacheAdapter(new Mustache_Engine); },
+    new FileExtensionPredicate(['mustache', 'mustache.html'])
+);
+```
+
 ## `QueryTemplate` Usage Example: Loading and Rendering Mustache Templates
 
 In the following example I will show all the code necessary to find and render [mustache](https://github.com/bobthecow/mustache.php)
@@ -438,35 +527,35 @@ class MustacheTemplateLoader implements TemplateLoaderInterface
    {
         // let's use a filter to build some context for the template
         $data = apply_filters( 'my_theme_data', ['query' => $GLOBALS['wp_query'], $templatePath );
-        
+
         $template = file_get_contents( $templatePath );
-        
+
         return $this->engine->render( $template, $data );
    }
 }
 
 add_action( 'template_redirect', function() {
-    
+
     // will look for "*.mustache" templates in "/templates" subfolder of theme
     $finder = new SubfolderTemplateFinder( 'templates', 'mustache' );
-    
+
     // make use of the class above
-    $loader = new MustacheTemplateLoader( new Mustache_Engine() ); 
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder, $loader ); 
-    
+    $loader = new MustacheTemplateLoader( new Mustache_Engine() );
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder, $loader );
+
     // 3rd argument of loadTemplate() is passed by reference, and is set to true if template is found
     $found = false;
-    
+
     // load the rendered template
     $content = $queryTemplate->loadTemplate( $GLOBALS['wp_query'], true, $found );
-    
+
     // if template was found, let's output it and exit, otherwise WordPress will continue its work
     if ( $found ) {
         echo $content;
         exit();
     }
-      
+
 } );
 ```
 

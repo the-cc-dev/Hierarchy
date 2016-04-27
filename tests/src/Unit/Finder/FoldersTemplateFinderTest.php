@@ -47,4 +47,29 @@ final class FoldersTemplateFinderTest extends TestCase
 
         assertSame($template, $finder->findFirst(['page-foo', 'another', 'index'], 'page'));
     }
+
+    public function testFindSeveralExtensions()
+    {
+        $twigTemplate     = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.twig';
+        $phpTemplate      = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.php';
+        $fallbackTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/single.php';
+
+        $folders    = [getenv('HIERARCHY_TESTS_BASEPATH').'/files'];
+        $twigFinder = new FoldersTemplateFinder($folders, [' TWIG ', 'php']);
+        $phpFinder  = new FoldersTemplateFinder($folders, ['.php', 'twig']);
+
+        assertSame($twigTemplate, $twigFinder->find('singular', 'singular'));
+        assertSame($phpTemplate, $phpFinder->find('singular', 'singular'));
+        assertSame($fallbackTemplate, $twigFinder->find('single', 'single'));
+    }
+
+    public function testFindExtensionless()
+    {
+        $template = getenv('HIERARCHY_TESTS_BASEPATH').'/files/archive';
+
+        $folders = [getenv('HIERARCHY_TESTS_BASEPATH').'/files'];
+        $finder = new FoldersTemplateFinder($folders, '');
+
+        assertSame($template, $finder->find('archive', 'archive'));
+    }
 }
