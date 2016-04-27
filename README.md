@@ -277,6 +277,8 @@ $twig_finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
 );
 ```
 
+Note that custom extensions are case insensitive and that can be passed with or without trailing dot.
+
 #### `SubfolderTemplateFinder`
 
 This template finder class is very similar to `FoldersTemplateFinder`, however it looks for templates
@@ -419,6 +421,85 @@ Template loaders can be passed as second constructor argument to `QueryTemplate`
 
 This is the unique loader class that ships with the library, and it provides the default behavior.
 
+
+## Aggregate Loaders
+
+Aggregate loaders uses different "inner" loaders to load templates.
+
+Aggregate loaders have to implement the interface `AggregateTemplateLoaderInterface` that has 2 methods:
+
+- `addLoader(TemplateLoaderInterface $loader, callable $predicate)`
+- `addLoaderFactory(callable $loaderFactory, callable $predicate)`
+
+The first is used to add a template loader instance. The second is used to add a factory callback
+that once called will return a template loader instance. It is useful when the loader instantiation
+is resource expensive to avoid unnecessary instantiation, that is only done if required (_lazy_).
+
+Both methods accept as second argument a "predicate": a callback that will receive the path of the 
+template file to load and will return a boolean.
+
+When the predicate returns `true`, the related loader is used to load the template.
+
+#### `CascadeAggregateTemplateLoader`
+
+`CascadeAggregateTemplateLoader` is a simple implementation of an aggregate loader, where the predicates
+are evaluated in the same order they are added (FIFO).
+
+
+#### `ExtensionMapTemplateLoader`
+
+`ExtensionMapTemplateLoader` is another aggregate loader implementation shipped with Hierarchy.
+
+It is used to load different loaders based on template file extension.
+
+It requires an extensions-to-loaders "map" to be passed to constructor.
+
+The map keys are the template file extensions, the values are the loader to be used.
+
+Loaders can be passed as:
+
+- template loader instances
+- template loader fully qualified class names
+- factory callbacks that once called return template loader instances
+
+The same loader can be used for multiple file extensions, using as map key a string composed by many
+file extensions separated by a pipe `|`.
+
+In any case file extensions are case insensitive and can be passed with or without leading dot.
+
+Example:
+
+```php
+$loader = new ExtensionMapTemplateLoader([
+    'php|phtml' => new FileRequireLoader(),
+    'mustache'  => function() { return new MyMustacheAdapter(new Mustache_Engine); },
+    'md'        => MyMarkdownRenderer::class
+]);
+```
+
+After the `ExtensionMapTemplateLoader` is obtained, it is possible to add more loaders using
+`addLoader()` and `addLoaderFactory()` methods that are part of the aggregate loader interface.
+
+In this case may comes handy the class `FileExtensionPredicate`, it is an invokable object that once
+executed passing a file path to it, return a boolean if file extension is supported. Supported extension(s)
+can be configured via constructor. It accepts single extension as string and multiple extensions
+as array or pipe-separated string.
+
+Example:
+
+```php
+$loader = new ExtensionMapTemplateLoader(['php|phtml' => new FileRequireLoader()]);
+
+$loader->addLoader(
+    new MyMarkdownRenderer(),
+    new FileExtensionPredicate('md')
+);
+
+$loader->addLoaderFactory(
+    function() { return new MyMustacheAdapter(new Mustache_Engine); },
+    new FileExtensionPredicate(['mustache', 'mustache.html'])
+);
+```
 
 ## `QueryTemplate` Usage Example: Loading and Rendering Mustache Templates
 
