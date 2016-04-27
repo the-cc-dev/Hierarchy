@@ -21,7 +21,6 @@ use Brain\Hierarchy\Tests\TestCase;
  */
 class FileExtensionPredicateTest extends TestCase
 {
-
     public function testSingleExtension()
     {
         /** @var callable $predicate */

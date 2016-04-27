@@ -21,7 +21,6 @@ use Brain\Hierarchy\Tests\TestCase;
  */
 class CascadeAggregateTemplateLoaderTest extends TestCase
 {
-
     public function testLoadReturnEmptyIfNoLoaders()
     {
         $loader = new CascadeAggregateTemplateLoader();
@@ -33,7 +32,7 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
         $innerLoader = \Mockery::mock(TemplateLoaderInterface::class);
         $innerLoader->shouldReceive('load')->once()->with('/a/path')->andReturn('Loaded!');
 
-        $predicate = function($path) {
+        $predicate = function ($path) {
             return $path === '/a/path';
         };
 
@@ -46,7 +45,7 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
 
     public function testLoadWithAddedLoaderFactory()
     {
-        $factory = function() {
+        $factory = function () {
             static $n = 0;
             $n++;
             if ($n > 1) {
@@ -58,7 +57,7 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
             return $loader;
         };
 
-        $predicate = function($path) {
+        $predicate = function ($path) {
             return $path === '/a/path';
         };
 
@@ -71,7 +70,7 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
 
     public function testLoadPriority()
     {
-        $factory = function() {
+        $factory = function () {
             static $n = 0;
             $n++;
             if ($n > 1) {
@@ -86,11 +85,11 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
         $innerLoader = \Mockery::mock(TemplateLoaderInterface::class);
         $innerLoader->shouldReceive('load')->once()->with(\Mockery::type('string'))->andReturn('B!');
 
-        $aPredicate = function($path) {
+        $aPredicate = function ($path) {
             return $path === '/a/path';
         };
 
-        $bPredicate = function() {
+        $bPredicate = function () {
             return true;
         };
 

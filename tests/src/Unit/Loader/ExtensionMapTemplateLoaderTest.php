@@ -21,7 +21,6 @@ use Brain\Hierarchy\Tests\TestCase;
  */
 class ExtensionMapTemplateLoaderTest extends TestCase
 {
-
     public function testLoadWithInstances()
     {
         $path = getenv('HIERARCHY_TESTS_BASEPATH').'/files/';
@@ -52,10 +51,10 @@ class ExtensionMapTemplateLoaderTest extends TestCase
         $bLoader->shouldReceive('load')->once()->with(\Mockery::type('string'))->andReturn('twig!');
 
         $loader = new ExtensionMapTemplateLoader([
-            'php' => function() use($aLoader) {
+            'php' => function () use ($aLoader) {
                 return $aLoader;
             },
-            'twig' => function() use($bLoader) {
+            'twig' => function () use ($bLoader) {
                 return $bLoader;
             }
         ]);
