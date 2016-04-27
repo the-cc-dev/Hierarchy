@@ -61,13 +61,10 @@ final class FoldersTemplateFinder implements TemplateFinderInterface
     public function find($template, $type)
     {
         foreach ($this->folders as $folder) {
-            $path = $folder.$template;
             foreach ($this->extensions as $extension) {
-                if ('' !== $extension) {
-                    $extension = '.'.$extension;
-                }
-                if (file_exists($path.$extension)) {
-                    return $path.$extension;
+                $path = $extension ? $folder.$template.'.'.$extension : $folder.$template;
+                if (file_exists($path)) {
+                    return $path;
                 }
             }
         }
