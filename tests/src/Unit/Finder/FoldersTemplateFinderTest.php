@@ -55,8 +55,8 @@ final class FoldersTemplateFinderTest extends TestCase
         $fallbackTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/single.php';
 
         $folders    = [getenv('HIERARCHY_TESTS_BASEPATH').'/files'];
-        $twigFinder = new FoldersTemplateFinder($folders, ['twig', 'php']);
-        $phpFinder  = new FoldersTemplateFinder($folders, ['php', 'twig']);
+        $twigFinder = new FoldersTemplateFinder($folders, [' TWIG ', 'php']);
+        $phpFinder  = new FoldersTemplateFinder($folders, ['.php', 'twig']);
 
         assertSame($twigTemplate, $twigFinder->find('singular', 'singular'));
         assertSame($phpTemplate, $phpFinder->find('singular', 'singular'));
