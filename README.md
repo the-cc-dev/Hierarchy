@@ -266,14 +266,14 @@ use different file extensions, by passing them as a second constructor argument 
 // This will look for *.phtml files.
 $phtml_finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
     [ get_stylesheet_directory(), get_template_directory() ],
-    '.phtml'
+    'phtml'
 );
 
 // This will look for Twig files first, and fall back to standard PHP files if
 // no matching Twig file was found.
 $twig_finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
     [ get_stylesheet_directory(), get_template_directory() ],
-    [ '.twig', 'php' ]
+    [ 'twig', 'php' ]
 );
 ```
 
