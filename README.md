@@ -23,7 +23,7 @@ Hierarchy
   - [Edit template content before to output](#edit-template-content-before-to-output)
   - [Template Finders](#template-finders)
     - [`FoldersTemplateFinder`](#folderstemplatefinder)
-      - [Custom file extension](#custom-file-extension)
+      - [Custom file extensions](#custom-file-extensions)
     - [`SubfolderTemplateFinder`](#subfoldertemplatefinder)
     - [`LocalizedTemplateFinder`](#localizedtemplatefinder)
     - [`SymfonyFinderAdapter`](#symfonyfinderadapter)
@@ -257,15 +257,23 @@ add_action( 'template_redirect', function() {
 The snippet above will search for templates in the current folder and if template is not found there,
 it is searched in theme and parent theme folders.
 
-##### Custom file extension
+##### Custom file extensions
 
-`FoldersTemplateFinder` class, by default, searches for files with `.php` extension, but is possible to 
-use a different files extension, passing it as second constructor argument:
+`FoldersTemplateFinder` class, by default, searches for files with `.php` extension, but it is possible to
+use different file extensions, by passing them as a second constructor argument (either a string or an array of strings):
 
 ```php
-$finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
+// This will look for *.phtml files.
+$phtml_finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
     [ get_stylesheet_directory(), get_template_directory() ],
     '.phtml'
+);
+
+// This will look for Twig files first, and fall back to standard PHP files if
+// no matching Twig file was found.
+$twig_finder = \Brain\Hierarchy\Finder\FoldersTemplateFinder(
+    [ get_stylesheet_directory(), get_template_directory() ],
+    [ '.twig', 'php' ]
 );
 ```
 
@@ -278,9 +286,9 @@ is a specific subfolder of theme (and parent theme) and use theme (and parent th
 add_action( 'template_redirect', function() {
 
     $finder = \Brain\Hierarchy\Finder\SubfolderTemplateFinder( 'templates' );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -292,10 +300,10 @@ Using code above the templates are searched, in order, in:
  - /path/to/parent/theme/templates/
  - /path/to/child/theme/
  - /path/to/parent/theme/
- 
-`SubfolderTemplateFinder`, just like `FoldersTemplateFinder`, accepts a custom file extension as second 
+
+`SubfolderTemplateFinder`, just like `FoldersTemplateFinder`, accepts custom file extensions as second
 constructor argument.
- 
+
 
 #### `LocalizedTemplateFinder`
 
@@ -308,11 +316,11 @@ add_action( 'template_redirect', function() {
 
     // if no folders provided, theme and parent theme folders are used
     $foldersFinder = new \Brain\Hierarchy\Finder\FoldersTemplateFinder();
-    
+
     $finder = new \Brain\Hierarchy\Finder\LocalizedTemplateFinder( $foldersFinder );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -325,9 +333,9 @@ Assuming the current locale is `it_IT`, using code above, the templates are sear
  - /path/to/child/theme/it/
  - /path/to/parent/theme/it/
  - /path/to/child/theme/
- - /path/to/parent/theme/ 
- 
- 
+ - /path/to/parent/theme/
+
+
 #### `SymfonyFinderAdapter`
 
 This class allows to use the [Symfony Finder Component](http://symfony.com/doc/current/components/finder.html)
@@ -338,11 +346,11 @@ add_action( 'template_redirect', function() {
 
     $symfonyFinder = new \Symfony\Component\Finder\Finder();
     $symfonyFinder = $symfonyFinder->files()->in( __DIR__ )->name( '*.phtml' );
-    
+
     $finder = new \Brain\Hierarchy\Finder\SymfonyFinderAdapter( $symfonyFinder );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -354,7 +362,7 @@ This class can be used to easily integrate 3rd party different loaders with `Que
 
 In fact, you need to provide an arbitrary callback that will be called to find templates.
 
-The callback will receive the template name without file extension, e.g. `index` and has to return 
+The callback will receive the template name without file extension, e.g. `index` and has to return
 the full path of the template if found, or an empty string if the template is not found.
 
 Example:
@@ -362,14 +370,14 @@ Example:
 ```php
 add_action( 'template_redirect', function() {
 
-    $callback = function( $template ) {       
+    $callback = function( $template ) {
        return realpath(__DIR__ . $template . '.php') ? : '';
     };
-    
+
     $finder = new \Brain\Hierarchy\Finder\CallbackTemplateFinder( $callback );
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder ); 
-    
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder );
+
     echo $queryTemplate->loadTemplate();
     exit();
 } );
@@ -380,7 +388,7 @@ add_action( 'template_redirect', function() {
 When WordPress searches for a template in `template-loader.php`, it triggers different filters in the form of
 [`{$type}_template`](https://developer.wordpress.org/reference/hooks/type_template/); examples are
  *'single_template'*. *'page_template'* and so on.
-  
+
 Moreover, the found template passes through the [*'template_include'*](https://developer.wordpress.org/reference/hooks/template_include/) filter.
 
 By default, **`QueryTemplate::loadTemplate()` applies same filters**, to maximize compatibility with core
@@ -438,35 +446,35 @@ class MustacheTemplateLoader implements TemplateLoaderInterface
    {
         // let's use a filter to build some context for the template
         $data = apply_filters( 'my_theme_data', ['query' => $GLOBALS['wp_query'], $templatePath );
-        
+
         $template = file_get_contents( $templatePath );
-        
+
         return $this->engine->render( $template, $data );
    }
 }
 
 add_action( 'template_redirect', function() {
-    
+
     // will look for "*.mustache" templates in "/templates" subfolder of theme
     $finder = new SubfolderTemplateFinder( 'templates', 'mustache' );
-    
+
     // make use of the class above
-    $loader = new MustacheTemplateLoader( new Mustache_Engine() ); 
-    
-    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder, $loader ); 
-    
+    $loader = new MustacheTemplateLoader( new Mustache_Engine() );
+
+    $queryTemplate = \Brain\Hierarchy\QueryTemplate( $finder, $loader );
+
     // 3rd argument of loadTemplate() is passed by reference, and is set to true if template is found
     $found = false;
-    
+
     // load the rendered template
     $content = $queryTemplate->loadTemplate( $GLOBALS['wp_query'], true, $found );
-    
+
     // if template was found, let's output it and exit, otherwise WordPress will continue its work
     if ( $found ) {
         echo $content;
         exit();
     }
-      
+
 } );
 ```
 
