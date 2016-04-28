@@ -11,6 +11,7 @@
 namespace Brain\Hierarchy\Finder;
 
 use ArrayIterator;
+use Brain\Hierarchy\FileExtensionPredicate;
 
 /**
  * Very similar to the way WordPress core works, however, it allows to search
@@ -50,7 +51,7 @@ final class FoldersTemplateFinder implements TemplateFinderInterface
         }
 
         $this->folders = array_map('trailingslashit', $folders);
-        $this->extensions = $this->parseExtensions($extension);
+        $this->extensions = FileExtensionPredicate::parseExtensions($extension);
     }
 
     /**
@@ -68,23 +69,5 @@ final class FoldersTemplateFinder implements TemplateFinderInterface
         }
 
         return '';
-    }
-
-    /**
-     * @param string|string[] $extensions
-     * @return string[]
-     */
-    private function parseExtensions($extensions)
-    {
-        $parsed = [];
-        $extensions = is_string($extensions) ? explode('|', $extensions) : (array) $extensions;
-        foreach ($extensions as $extension) {
-            if (is_string($extension)) {
-                $extension = strtolower(trim($extension, ". \t\n\r\0\x0B"));
-                in_array($extension, $parsed, true) or $parsed[] = $extension;
-            }
-        }
-
-        return $parsed;
     }
 }

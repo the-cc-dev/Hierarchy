@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Brain\Hierarchy\Loader;
+namespace Brain\Hierarchy;
 
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
@@ -23,14 +23,30 @@ class FileExtensionPredicate
     private $extension = [];
 
     /**
+     * @param string|string[] $extensions
+     * @param string          $trimPattern
+     * @return \string[]
+     */
+    public static function parseExtensions($extensions, $trimPattern = ". \t\n\r\0\x0B")
+    {
+        $parsed = [];
+        $extensions = is_string($extensions) ? explode('|', $extensions) : (array) $extensions;
+        foreach ($extensions as $extension) {
+            if (is_string($extension)) {
+                $extension = strtolower(trim($extension, $trimPattern));
+                in_array($extension, $parsed, true) or $parsed[] = $extension;
+            }
+        }
+
+        return $parsed;
+    }
+
+    /**
      * @param string|string[] $extension
      */
     public function __construct($extension)
     {
-        $extensions = is_string($extension) ? explode('|', $extension) : (array) $extension;
-        foreach ($extensions as $extension) {
-            is_string($extension) and $this->extension[] = strtolower(trim($extension, ". \t\n\r\0\x0B"));
-        }
+        $this->extension = self::parseExtensions($extension);
     }
 
     /**

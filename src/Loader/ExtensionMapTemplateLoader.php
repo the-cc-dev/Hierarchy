@@ -10,6 +10,8 @@
 
 namespace Brain\Hierarchy\Loader;
 
+use Brain\Hierarchy\FileExtensionPredicate;
+
 /**
  * This is an aggregate loader that allow a different loader based on template file extension.
  * It requires a "map" of extension to loader to be passed to constructor.
