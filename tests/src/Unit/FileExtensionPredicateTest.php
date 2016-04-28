@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Brain\Hierarchy\Tests\Unit\Loader;
+namespace Brain\Hierarchy\Tests\Unit;
 
-use Brain\Hierarchy\Loader\FileExtensionPredicate;
+use Brain\Hierarchy\FileExtensionPredicate;
 use Brain\Hierarchy\Tests\TestCase;
 
 
@@ -21,6 +21,25 @@ use Brain\Hierarchy\Tests\TestCase;
  */
 class FileExtensionPredicateTest extends TestCase
 {
+    /**
+     * @dataProvider parseExtensionsProvider
+     */
+    public function testParseExtensions($input, $output)
+    {
+        assertEquals($output, $extension = FileExtensionPredicate::parseExtensions($input));
+    }
+
+    public function parseExtensionsProvider()
+    {
+        return [
+            // $input, $output
+            ['php', ['php']],
+            ["\0\n\t .PhP \0\n\t", ['php']],
+            ['twig|php|html', ['twig', 'php', 'html']],
+            ["\nTWIG | php\t | .Html", ['twig', 'php', 'html']],
+        ];
+    }
+
     public function testSingleExtension()
     {
         /** @var callable $predicate */
