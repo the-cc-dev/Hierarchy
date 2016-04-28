@@ -69,8 +69,6 @@ final class CascadeAggregateTemplateLoader implements AggregateTemplateLoaderInt
                 continue;
             }
 
-            $this->loaders[$i] = [$loader, $predicate, false];
-
             return $loader->load($templatePath);
         }
 
