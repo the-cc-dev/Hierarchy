@@ -145,7 +145,8 @@ class QueryTemplateTest extends TestCase
                 }
             );
 
-        $queryTemplate = new Proxy(new QueryTemplate());
+        $finder = \Mockery::mock(TemplateFinderInterface::class);
+        $queryTemplate = new Proxy(new QueryTemplate($finder));
         $applied = $queryTemplate->applyFilter('test_filter', 'foo', $customQuery);
 
         // after filter, globals `$wp_query` and `$wp_the_query` are restored
@@ -209,6 +210,9 @@ class QueryTemplateTest extends TestCase
 
     public function testInstanceWithLoader()
     {
+        Functions::when('get_stylesheet_directory')->justReturn();
+        Functions::when('get_template_directory')->justReturn();
+        
         $loader = Mockery::mock(TemplateLoaderInterface::class);
         $instance = QueryTemplate::instanceWithLoader($loader);
         $proxy = new Proxy($instance);
