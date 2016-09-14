@@ -17,6 +17,7 @@ namespace Brain\Hierarchy\Branch;
  */
 final class BranchSingle implements BranchInterface
 {
+
     /**
      * @inheritdoc
      */
@@ -40,9 +41,20 @@ final class BranchSingle implements BranchInterface
     {
         /** @var \WP_Post $post */
         $post = $query->get_queried_object();
-        $post instanceof \WP_Post or $post = new \WP_Post((object) ['ID' => 0]);
+        if ( ! $post instanceof \WP_Post) {
+            return ['single'];
+        }
 
-        $leaves = empty($post->ID) ? ['single'] : ["single-{$post->post_type}", 'single'];
+        $leaves = [
+            "single-{$post->post_type}-{$post->post_name}",
+            "single-{$post->post_type}",
+            'single'
+        ];
+
+        $decoded = urldecode($post->post_name);
+        if ($decoded !== $post->post_name) {
+            array_unshift($leaves, "single-{$post->post_type}-{$decoded}");
+        }
 
         return $leaves;
     }
