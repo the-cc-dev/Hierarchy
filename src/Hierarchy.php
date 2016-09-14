@@ -18,6 +18,7 @@ class Hierarchy
 {
 
     const FILTERABLE = 1;
+    const NOT_FILTERABLE = 2;
 
     /**
      * @var int
@@ -28,23 +29,23 @@ class Hierarchy
      * @var array
      */
     private static $branches = [
-        Branch\BranchEmbed::class,
-        Branch\Branch404::class,
-        Branch\BranchSearch::class,
-        Branch\BranchFrontPage::class,
-        Branch\BranchHome::class,
-        Branch\BranchPostTypeArchive::class,
-        Branch\BranchTaxonomy::class,
-        Branch\BranchAttachment::class,
-        Branch\BranchSingle::class,
-        Branch\BranchPage::class,
-        Branch\BranchSingular::class,
-        Branch\BranchCategory::class,
-        Branch\BranchTag::class,
-        Branch\BranchAuthor::class,
-        Branch\BranchDate::class,
-        Branch\BranchArchive::class,
-        Branch\BranchPaged::class,
+        'embed'             => Branch\BranchEmbed::class,
+        '404'               => Branch\Branch404::class,
+        'search'            => Branch\BranchSearch::class,
+        'frontpage'         => Branch\BranchFrontPage::class,
+        'home'              => Branch\BranchHome::class,
+        'post-type-archive' => Branch\BranchPostTypeArchive::class,
+        'taxonomy'          => Branch\BranchTaxonomy::class,
+        'attachment'        => Branch\BranchAttachment::class,
+        'single'            => Branch\BranchSingle::class,
+        'page'              => Branch\BranchPage::class,
+        'singular'          => Branch\BranchSingular::class,
+        'category'          => Branch\BranchCategory::class,
+        'tag'               => Branch\BranchTag::class,
+        'author'            => Branch\BranchAuthor::class,
+        'date'              => Branch\BranchDate::class,
+        'archive'           => Branch\BranchArchive::class,
+        'paged'             => Branch\BranchPaged::class,
     ];
 
     /**
@@ -104,15 +105,38 @@ class Hierarchy
             );
         }
 
+        // removed indexes, we added them to make filtering easier
+        $branches = array_values($branches);
+
         if ($query instanceof \WP_Query) {
             $data = array_reduce($branches, [$this, 'parseBranch'], $data);
-            $data->templates[] = 'index';
-            $data->hierarchy['index'] = ['index'];
         }
 
+        $data->hierarchy = $this->addIndexLeaves($data->hierarchy);
+        $data->templates[] = 'index';
         $data->templates = array_values(array_unique($data->templates));
 
         return $data;
+    }
+
+    /**
+     * @param array $hierarchy
+     * @return array
+     */
+    private function addIndexLeaves(array $hierarchy)
+    {
+        if (($this->flags & self::FILTERABLE) <= 0) {
+            $hierarchy['index'] = ['index'];
+
+            return $hierarchy;
+        }
+
+        $index_leaves = (array)apply_filters("index_template_hierarchy", ['index']);
+        $index_leaves = array_filter($index_leaves, 'is_string');
+
+        $hierarchy['index'] = array_filter($index_leaves);
+
+        return $hierarchy;
     }
 
     /**
