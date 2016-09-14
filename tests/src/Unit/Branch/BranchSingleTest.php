@@ -25,6 +25,7 @@ final class BranchSingleTest extends TestCase
         $post = Mockery::mock('\WP_Post');
         $post->ID = 0;
         $post->post_name = '';
+        $post->post_type = '';
         $query = new \WP_Query([], $post);
 
         $branch = new BranchSingle();
@@ -36,11 +37,18 @@ final class BranchSingleTest extends TestCase
     {
         $post = Mockery::mock('\WP_Post');
         $post->ID = 123;
+        $post->post_name = 'one_two_three';
         $post->post_type = 'my_cpt';
         $query = new \WP_Query([], $post);
 
         $branch = new BranchSingle();
 
-        assertSame(['single-my_cpt', 'single'], $branch->leaves($query));
+        $expected = [
+            'single-my_cpt-one_two_three',
+            'single-my_cpt',
+            'single'
+        ];
+
+        assertSame($expected, $branch->leaves($query));
     }
 }
