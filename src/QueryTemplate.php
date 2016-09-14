@@ -22,6 +22,7 @@ use Brain\Hierarchy\Loader\TemplateLoaderInterface;
  */
 final class QueryTemplate implements QueryTemplateInterface
 {
+
     /**
      * @var \Brain\Hierarchy\Finder\TemplateFinderInterface
      */
@@ -78,8 +79,8 @@ final class QueryTemplate implements QueryTemplateInterface
         TemplateLoaderInterface $loader = null
     ) {
         // if no finder provided, let's use the one that simulates core behaviour
-        $this->finder = $finder ?: new FoldersTemplateFinder();
-        $this->loader = $loader ?: new FileRequireLoader();
+        $this->finder = $finder ? : new FoldersTemplateFinder();
+        $this->loader = $loader ? : new FileRequireLoader();
     }
 
     /**
@@ -133,11 +134,13 @@ final class QueryTemplate implements QueryTemplateInterface
      * @param  \WP_Query $query
      * @return string
      */
-    private function applyFilter($filter, $value, \WP_Query $query)
+    private function applyFilter($filter, $value, \WP_Query $query = null)
     {
         $backup = [];
-        $custom = ! $query->is_main_query();
         global $wp_query, $wp_the_query;
+        is_null($query) and $query = $wp_query;
+        $custom = ! $query->is_main_query();
+
         if ($custom && $wp_query instanceof \WP_Query && $wp_the_query instanceof \WP_Query) {
             $backup = [$wp_query, $wp_the_query];
             unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
