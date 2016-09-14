@@ -10,6 +10,7 @@
 
 namespace Brain\Hierarchy\Tests\Functional;
 
+use Brain\Hierarchy\Finder\TemplateFinderInterface;
 use Brain\Monkey\Functions;
 use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use Brain\Hierarchy\Finder\LocalizedTemplateFinder;
@@ -90,6 +91,10 @@ class QueryTemplateTest extends TestCase
             return getenv('HIERARCHY_TESTS_BASEPATH').'/files/it_IT';
         });
 
+        Functions::when('get_template_directory')->alias(function () {
+            return getenv('HIERARCHY_TESTS_BASEPATH').'/files/it_IT';
+        });
+
         $wpQuery = new \WP_Query([
             'is_tax'     => true,
             'is_archive' => true,
@@ -103,6 +108,10 @@ class QueryTemplateTest extends TestCase
     public function testFallbackToIndex()
     {
         Functions::when('get_stylesheet_directory')->alias(function () {
+            return getenv('HIERARCHY_TESTS_BASEPATH').'/files';
+        });
+
+        Functions::when('get_template_directory')->alias(function () {
             return getenv('HIERARCHY_TESTS_BASEPATH').'/files';
         });
 
