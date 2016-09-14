@@ -39,7 +39,7 @@ final class BranchSingle implements BranchInterface
     {
         /** @var \WP_Post $post */
         $post = $query->get_queried_object();
-        if (!$post instanceof \WP_Post) {
+        if (!$post instanceof \WP_Post || ! $post->ID) {
             return ['single'];
         }
 
