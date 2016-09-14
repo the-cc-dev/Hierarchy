@@ -17,10 +17,12 @@ namespace Brain\Hierarchy;
  */
 class Hierarchy
 {
+
     /**
      * @var array
      */
     private static $branches = [
+        Branch\BranchEmbed::class,
         Branch\Branch404::class,
         Branch\BranchSearch::class,
         Branch\BranchFrontPage::class,
@@ -71,7 +73,7 @@ class Hierarchy
     {
         (is_null($query) && isset($GLOBALS['wp_query'])) and $query = $GLOBALS['wp_query'];
 
-        $data = (object) ['hierarchy' => [], 'templates' => [], 'query' => $query];
+        $data = (object)['hierarchy' => [], 'templates' => [], 'query' => $query];
 
         if ($query instanceof \WP_Query) {
             $data = array_reduce(self::$branches, [$this, 'parseBranch'], $data);
@@ -95,7 +97,7 @@ class Hierarchy
         $branch = new $branchClass();
         $name = $branch->name();
         if ($branch->is($data->query) && ! isset($data->hierarchy[$name])) {
-            $leaves = $branch->leaves($data->query);
+            $leaves = apply_filters("{$name}_template_hierarchy", $branch->leaves($data->query));
             $data->hierarchy[$name] = $leaves;
             $data->templates = array_merge($data->templates, $leaves);
         }
