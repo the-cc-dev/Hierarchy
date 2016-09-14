@@ -14,6 +14,7 @@ use Brain\Hierarchy\Tests\TestCase;
 use Brain\Hierarchy\Tests\Stubs;
 use Brain\Hierarchy\Branch\BranchInterface;
 use Brain\Hierarchy\Hierarchy;
+use Brain\Monkey\WP\Filters;
 
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
@@ -21,8 +22,10 @@ use Brain\Hierarchy\Hierarchy;
  */
 class HierarchyTest extends TestCase
 {
+
     public function testParse()
     {
+
         $hierarchy = new Hierarchy();
 
         $branches = [
@@ -32,15 +35,12 @@ class HierarchyTest extends TestCase
             Stubs\BranchStubBaz::class,  // should be skipped because its is() always returns false
         ];
 
-        $query = new \WP_Query();
+        Filters::expectApplied('brain.hierarchy.branches')->once()->andReturn($branches);
 
-        $branchesBackup = $this->getPrivateStaticVar('branches', $hierarchy);
-        $this->setPrivateStaticVar('branches', $branches, $hierarchy);
+        $query = new \WP_Query();
 
         /** @var \stdClass $data */
         $data = $this->callPrivateFunc('parse', $hierarchy, [$query]);
-
-        $this->setPrivateStaticVar('branches', $branchesBackup, $hierarchy);
 
         $expected = [
             'foo' => (new Stubs\BranchStubFoo())->leaves($query),

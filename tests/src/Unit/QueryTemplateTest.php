@@ -26,15 +26,6 @@ use Mockery;
  */
 class QueryTemplateTest extends TestCase
 {
-    public function testFindEmptyWhenNoLeaves()
-    {
-        $finder = Mockery::mock(TemplateFinderInterface::class);
-        $loader = new QueryTemplate($finder);
-        $found = $loader->findTemplate();
-
-        assertSame('', $found);
-    }
-
     public function testFindNoFilters()
     {
         $wpQuery = new \WP_Query();
