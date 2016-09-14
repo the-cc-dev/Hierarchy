@@ -18,11 +18,9 @@ use Brain\Hierarchy\Loader\TemplateLoaderInterface;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class QueryTemplate implements QueryTemplateInterface
 {
-
     /**
      * @var \Brain\Hierarchy\Finder\TemplateFinderInterface
      */
@@ -34,7 +32,8 @@ final class QueryTemplate implements QueryTemplateInterface
     private $loader;
 
     /**
-     * @param  \Brain\Hierarchy\Loader\TemplateLoaderInterface|null $loader
+     * @param \Brain\Hierarchy\Loader\TemplateLoaderInterface|null $loader
+     *
      * @return \Brain\Hierarchy\QueryTemplate
      */
     public static function instanceWithLoader(TemplateLoaderInterface $loader = null)
@@ -43,8 +42,9 @@ final class QueryTemplate implements QueryTemplateInterface
     }
 
     /**
-     * @param  array                                                $folders
-     * @param  \Brain\Hierarchy\Loader\TemplateLoaderInterface|null $loader
+     * @param array                                                $folders
+     * @param \Brain\Hierarchy\Loader\TemplateLoaderInterface|null $loader
+     *
      * @return \Brain\Hierarchy\QueryTemplate
      */
     public static function instanceWithFolders(
@@ -62,12 +62,12 @@ final class QueryTemplate implements QueryTemplateInterface
         return
             (
                 filter_input(INPUT_SERVER, 'REQUEST_METHOD') !== 'HEAD'
-                || ! apply_filters('exit_on_http_head', true)
+                || !apply_filters('exit_on_http_head', true)
             )
-            && ! is_robots()
-            && ! is_feed()
-            && ! is_trackback()
-            && ! is_embed();
+            && !is_robots()
+            && !is_feed()
+            && !is_trackback()
+            && !is_embed();
     }
 
     /**
@@ -79,8 +79,8 @@ final class QueryTemplate implements QueryTemplateInterface
         TemplateLoaderInterface $loader = null
     ) {
         // if no finder provided, let's use the one that simulates core behaviour
-        $this->finder = $finder ? : new FoldersTemplateFinder();
-        $this->loader = $loader ? : new FileRequireLoader();
+        $this->finder = $finder ?: new FoldersTemplateFinder();
+        $this->loader = $loader ?: new FileRequireLoader();
     }
 
     /**
@@ -88,19 +88,19 @@ final class QueryTemplate implements QueryTemplateInterface
      * If no WP_Query provided, global \WP_Query is used.
      * By default, found template passes through "{$type}_template" filter.
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findTemplate(\WP_Query $query = null, $filters = true)
     {
         $leaves = (new Hierarchy())->getHierarchy($query);
 
-        if (! is_array($leaves) || empty($leaves)) {
+        if (!is_array($leaves) || empty($leaves)) {
             return '';
         }
 
         $types = array_keys($leaves);
         $found = '';
-        while (! empty($types) && ! $found) {
+        while (!empty($types) && !$found) {
             $type = array_shift($types);
             $found = $this->finder->findFirst($leaves[$type], $type);
             $filters and $found = $this->applyFilter("{$type}_template", $found, $query);
@@ -114,7 +114,7 @@ final class QueryTemplate implements QueryTemplateInterface
      * If no WP_Query provided, global \WP_Query is used.
      * By default, found template passes through "{$type}_template" and "template_include" filters.
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function loadTemplate(\WP_Query $query = null, $filters = true, &$found = false)
     {
@@ -127,11 +127,12 @@ final class QueryTemplate implements QueryTemplateInterface
 
     /**
      * To maximize compatibility, when applying a filters and the WP_Query object we are using is
-     * NOT the main query, we temporarily set global $wp_query and $wp_the_query to our custom query
+     * NOT the main query, we temporarily set global $wp_query and $wp_the_query to our custom query.
      *
-     * @param  string    $filter
-     * @param  string    $value
-     * @param  \WP_Query $query
+     * @param string    $filter
+     * @param string    $value
+     * @param \WP_Query $query
+     *
      * @return string
      */
     private function applyFilter($filter, $value, \WP_Query $query = null)
@@ -139,7 +140,7 @@ final class QueryTemplate implements QueryTemplateInterface
         $backup = [];
         global $wp_query, $wp_the_query;
         is_null($query) and $query = $wp_query;
-        $custom = ! $query->is_main_query();
+        $custom = !$query->is_main_query();
 
         if ($custom && $wp_query instanceof \WP_Query && $wp_the_query instanceof \WP_Query) {
             $backup = [$wp_query, $wp_the_query];

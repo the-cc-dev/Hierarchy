@@ -17,7 +17,6 @@ use Mockery;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchAttachmentTest extends TestCase
 {

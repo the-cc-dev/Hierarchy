@@ -18,7 +18,6 @@ use Andrew\Proxy;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class TestCase extends PHPUnit_Framework_TestCase
 {
@@ -49,8 +48,9 @@ class TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param  string $var
-     * @param  object $object
+     * @param string $var
+     * @param object $object
+     *
      * @return mixed
      */
     protected function getPrivateStaticVar($var, $object)
@@ -72,9 +72,10 @@ class TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param  string $method
-     * @param  object $object
-     * @param  array  $args
+     * @param string $method
+     * @param object $object
+     * @param array  $args
+     *
      * @return mixed
      */
     protected function callPrivateFunc($method, $object, $args = [])

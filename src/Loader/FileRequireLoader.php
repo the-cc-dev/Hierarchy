@@ -13,19 +13,18 @@ namespace Brain\Hierarchy\Loader;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class FileRequireLoader implements TemplateLoaderInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load($templatePath)
     {
-        $production = ! defined('WP_DEBUG') || ! WP_DEBUG;
+        $production = !defined('WP_DEBUG') || !WP_DEBUG;
 
         ob_start();
-        if (! $production) {
+        if (!$production) {
             /** @noinspection PhpIncludeInspection */
             require $templatePath;
         } elseif (file_exists($templatePath)) {

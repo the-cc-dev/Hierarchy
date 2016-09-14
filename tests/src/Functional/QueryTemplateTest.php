@@ -10,7 +10,6 @@
 
 namespace Brain\Hierarchy\Tests\Functional;
 
-use Brain\Hierarchy\Finder\TemplateFinderInterface;
 use Brain\Monkey\Functions;
 use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use Brain\Hierarchy\Finder\LocalizedTemplateFinder;
@@ -23,7 +22,6 @@ use Symfony\Component\Finder\Finder;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class QueryTemplateTest extends TestCase
 {
@@ -70,7 +68,7 @@ class QueryTemplateTest extends TestCase
         });
 
         $wpQuery = new \WP_Query([
-            'is_tax'     => true,
+            'is_tax' => true,
             'is_archive' => true,
         ], (object) ['slug' => 'bar', 'taxonomy' => 'foo']);
 
@@ -96,7 +94,7 @@ class QueryTemplateTest extends TestCase
         });
 
         $wpQuery = new \WP_Query([
-            'is_tax'     => true,
+            'is_tax' => true,
             'is_archive' => true,
         ], (object) ['slug' => 'bar', 'taxonomy' => 'foo']);
 
@@ -116,7 +114,7 @@ class QueryTemplateTest extends TestCase
         });
 
         $wpTaxQuery = new \WP_Query([
-            'is_tax'     => true,
+            'is_tax' => true,
             'is_archive' => true,
         ], (object) ['slug' => 'bar', 'taxonomy' => 'foo']);
 

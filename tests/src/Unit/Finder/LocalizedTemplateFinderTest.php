@@ -18,7 +18,6 @@ use Brain\Hierarchy\Tests\TestCase;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class LocalizedTemplateFinderTest extends TestCase
 {

@@ -13,12 +13,11 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchAttachment implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -26,7 +25,7 @@ final class BranchAttachment implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -34,7 +33,7 @@ final class BranchAttachment implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
@@ -44,7 +43,7 @@ final class BranchAttachment implements BranchInterface
 
         $leaves = [];
         empty($post->post_mime_type) or $mimetype = explode('/', $post->post_mime_type, 2);
-        if (! empty($mimetype) && ! empty($mimetype[0])) {
+        if (!empty($mimetype) && !empty($mimetype[0])) {
             $leaves = isset($mimetype[1]) && $mimetype[1]
                 ? [$mimetype[0], $mimetype[1], "{$mimetype[0]}_{$mimetype[1]}"]
                 : [$mimetype[0]];

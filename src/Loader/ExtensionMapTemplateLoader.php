@@ -19,7 +19,7 @@ use Brain\Hierarchy\FileExtensionPredicate;
  * Loader can be passed as:
  * - template loader instances
  * - template loader fully qualified class names
- * - factory callbacks that once called return template loader instances
+ * - factory callbacks that once called return template loader instances.
  *
  * The same loader can be used for multiple file extension, using as key a string of many extensions
  * separated by a pipe `|`.
@@ -38,7 +38,6 @@ use Brain\Hierarchy\FileExtensionPredicate;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class ExtensionMapTemplateLoader implements AggregateTemplateLoaderInterface
 {
@@ -57,7 +56,7 @@ final class ExtensionMapTemplateLoader implements AggregateTemplateLoaderInterfa
 
         array_walk($map, function ($loader, $extension) {
             $loader = $this->buildLoader($loader);
-            if (! is_null($loader)) {
+            if (!is_null($loader)) {
                 $predicate = new FileExtensionPredicate($extension);
                 $loader instanceof TemplateLoaderInterface
                     ? $this->loader->addLoader($loader, $predicate)
@@ -67,7 +66,7 @@ final class ExtensionMapTemplateLoader implements AggregateTemplateLoaderInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load($templatePath)
     {
@@ -75,7 +74,7 @@ final class ExtensionMapTemplateLoader implements AggregateTemplateLoaderInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addLoader(TemplateLoaderInterface $loader, callable $predicate)
     {
@@ -83,7 +82,7 @@ final class ExtensionMapTemplateLoader implements AggregateTemplateLoaderInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addLoaderFactory(callable $loaderFactory, callable $predicate)
     {
@@ -91,7 +90,8 @@ final class ExtensionMapTemplateLoader implements AggregateTemplateLoaderInterfa
     }
 
     /**
-     * @param  \Brain\Hierarchy\Loader\TemplateLoaderInterface|callable|string $loader
+     * @param \Brain\Hierarchy\Loader\TemplateLoaderInterface|callable|string $loader
+     *
      * @return \Closure|\Brain\Hierarchy\Loader\TemplateLoaderInterface
      */
     private function buildLoader($loader)

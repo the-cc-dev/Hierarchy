@@ -13,14 +13,14 @@ namespace Brain\Hierarchy\Loader;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 interface TemplateLoaderInterface
 {
     /**
      * Load a template and return the rendered content.
      *
-     * @param  string $templatePath
+     * @param string $templatePath
+     *
      * @return string
      */
     public function load($templatePath);

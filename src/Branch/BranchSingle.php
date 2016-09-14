@@ -13,13 +13,11 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchSingle implements BranchInterface
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -27,7 +25,7 @@ final class BranchSingle implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -35,20 +33,20 @@ final class BranchSingle implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
         /** @var \WP_Post $post */
         $post = $query->get_queried_object();
-        if ( ! $post instanceof \WP_Post) {
+        if (!$post instanceof \WP_Post) {
             return ['single'];
         }
 
         $leaves = [
             "single-{$post->post_type}-{$post->post_name}",
             "single-{$post->post_type}",
-            'single'
+            'single',
         ];
 
         $decoded = urldecode($post->post_name);

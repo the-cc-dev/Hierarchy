@@ -13,12 +13,11 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchPage implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -26,7 +25,7 @@ final class BranchPage implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -34,7 +33,7 @@ final class BranchPage implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
@@ -51,14 +50,14 @@ final class BranchPage implements BranchInterface
         $name = $pagename ? $pagename : $post->post_name;
 
         $leaves = ["page-{$name}"];
-        $post->ID and $leaves[]  = "page-{$post->ID}";
+        $post->ID and $leaves[] = "page-{$post->ID}";
         $leaves[] = 'page';
 
         $template = ($post->ID && $post->post_type === 'page')
             ? filter_var(get_page_template_slug($post), FILTER_SANITIZE_URL)
             : false;
 
-        if (! empty($template) && validate_file($template) === 0) {
+        if (!empty($template) && validate_file($template) === 0) {
             $dir = dirname($template);
             $filename = pathinfo($template, PATHINFO_FILENAME);
             $name = $dir === '.' ? $filename : "{$dir}/{$filename}";

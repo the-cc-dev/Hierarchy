@@ -17,7 +17,6 @@ use Brain\Hierarchy\Tests\TestCase;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class CascadeAggregateTemplateLoaderTest extends TestCase
 {
@@ -47,7 +46,7 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
     {
         $factory = function () {
             static $n = 0;
-            $n++;
+            ++$n;
             if ($n > 1) {
                 throw new \PHPUnit_Framework_Exception('Loader factory should be called once.');
             }
@@ -72,7 +71,7 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
     {
         $factory = function () {
             static $n = 0;
-            $n++;
+            ++$n;
             if ($n > 1) {
                 throw new \PHPUnit_Framework_Exception('Loader factory should be called once.');
             }
@@ -92,7 +91,6 @@ class CascadeAggregateTemplateLoaderTest extends TestCase
         $bPredicate = function () {
             return true;
         };
-
 
         $loader = new CascadeAggregateTemplateLoader();
         $loader
