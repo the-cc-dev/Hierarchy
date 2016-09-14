@@ -18,7 +18,6 @@ use Symfony\Component\Finder\Finder;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class SymfonyFinderAdapter implements TemplateFinderInterface
 {
@@ -50,7 +49,8 @@ final class SymfonyFinderAdapter implements TemplateFinderInterface
     }
 
     /**
-     * @param  \Symfony\Component\Finder\Finder             $finder
+     * @param \Symfony\Component\Finder\Finder $finder
+     *
      * @return \Brain\Hierarchy\Finder\SymfonyFinderAdapter
      */
     public function withSymfonyFinder(Finder $finder)
@@ -62,7 +62,7 @@ final class SymfonyFinderAdapter implements TemplateFinderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function find($template, $type)
     {
@@ -82,7 +82,7 @@ final class SymfonyFinderAdapter implements TemplateFinderInterface
         /** @var \Iterator $iterator */
         $iterator = $finder->files()->name("~^{$quotedName}(\.[\w]{1,})?$~")->getIterator();
 
-        if (! iterator_count($iterator) > 0) {
+        if (!iterator_count($iterator) > 0) {
             return '';
         }
 

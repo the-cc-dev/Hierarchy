@@ -17,7 +17,6 @@ use Brain\Monkey\Functions;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class SubfolderTemplateFinderTest extends TestCase
 {
@@ -57,11 +56,11 @@ final class SubfolderTemplateFinderTest extends TestCase
 
     public function testFindSeveralExtensions()
     {
-        $twigTemplate     = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.twig';
-        $phpTemplate      = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.php';
+        $twigTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.twig';
+        $phpTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.php';
         $fallbackTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/single.php';
         $twigFinder = new SubfolderTemplateFinder('files', ['twig', 'php']);
-        $phpFinder  = new SubfolderTemplateFinder('files', ['php', 'twig']);
+        $phpFinder = new SubfolderTemplateFinder('files', ['php', 'twig']);
         assertSame($twigTemplate, $twigFinder->find('singular', 'singular'));
         assertSame($phpTemplate, $phpFinder->find('singular', 'singular'));
         assertSame($fallbackTemplate, $twigFinder->find('single', 'single'));

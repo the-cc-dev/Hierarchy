@@ -10,7 +10,6 @@
 
 namespace Brain\Hierarchy\Finder;
 
-use ArrayIterator;
 use Brain\Hierarchy\FileExtensionPredicate;
 
 /**
@@ -21,7 +20,6 @@ use Brain\Hierarchy\FileExtensionPredicate;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class FoldersTemplateFinder implements TemplateFinderInterface
 {
@@ -55,7 +53,7 @@ final class FoldersTemplateFinder implements TemplateFinderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function find($template, $type)
     {

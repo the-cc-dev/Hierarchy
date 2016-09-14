@@ -37,7 +37,7 @@ class WP_Query
 
     public function __call($name, $arguments)
     {
-        if (! array_key_exists($name, $this->true)) {
+        if (!array_key_exists($name, $this->true)) {
             return false;
         }
 

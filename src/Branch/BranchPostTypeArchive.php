@@ -13,12 +13,11 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchPostTypeArchive implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -26,7 +25,7 @@ final class BranchPostTypeArchive implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -34,7 +33,7 @@ final class BranchPostTypeArchive implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
@@ -44,7 +43,8 @@ final class BranchPostTypeArchive implements BranchInterface
     }
 
     /**
-     * @param  \WP_Query    $query
+     * @param \WP_Query $query
+     *
      * @return mixed|string
      */
     private function postType(\WP_Query $query)

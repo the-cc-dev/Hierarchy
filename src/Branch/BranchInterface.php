@@ -13,7 +13,6 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 interface BranchInterface
 {
@@ -23,13 +22,15 @@ interface BranchInterface
     public function name();
 
     /**
-     * @param  \WP_Query $query
+     * @param \WP_Query $query
+     *
      * @return bool
      */
     public function is(\WP_Query $query);
 
     /**
-     * @param  \WP_Query $query
+     * @param \WP_Query $query
+     *
      * @return array
      */
     public function leaves(\WP_Query $query);

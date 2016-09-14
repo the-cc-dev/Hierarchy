@@ -18,7 +18,6 @@ namespace Brain\Hierarchy\Loader;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 interface AggregateTemplateLoaderInterface extends TemplateLoaderInterface
 {
@@ -26,8 +25,9 @@ interface AggregateTemplateLoaderInterface extends TemplateLoaderInterface
      * Append a loader object to be used to load templates when given predicate
      * returns true when receiving the template path.
      *
-     * @param  \Brain\Hierarchy\Loader\TemplateLoaderInterface          $loader
-     * @param  callable                                                 $predicate
+     * @param \Brain\Hierarchy\Loader\TemplateLoaderInterface $loader
+     * @param callable                                        $predicate
+     *
      * @return \Brain\Hierarchy\Loader\AggregateTemplateLoaderInterface
      */
     public function addLoader(TemplateLoaderInterface $loader, callable $predicate);
@@ -36,8 +36,9 @@ interface AggregateTemplateLoaderInterface extends TemplateLoaderInterface
      * Append a loader factory to be used to instantiate a loader that is used to load templates
      * when given predicate returns true when receiving the template path.
      *
-     * @param  callable                                                 $loaderFactory
-     * @param  callable                                                 $predicate
+     * @param callable $loaderFactory
+     * @param callable $predicate
+     *
      * @return \Brain\Hierarchy\Loader\AggregateTemplateLoaderInterface
      */
     public function addLoaderFactory(callable $loaderFactory, callable $predicate);

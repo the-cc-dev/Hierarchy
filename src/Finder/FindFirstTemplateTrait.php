@@ -13,22 +13,23 @@ namespace Brain\Hierarchy\Finder;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  *
  * @method string find(string $template, string $type)
  */
 trait FindFirstTemplateTrait
 {
     /**
-     * @param  array  $templates
-     * @param  string $type
+     * @param array  $templates
+     * @param string $type
+     *
      * @return string
+     *
      * @see \Brain\Hierarchy\Finder\TemplateFinderInterface::findFirst()
      */
     public function findFirst(array $templates, $type)
     {
         $found = '';
-        while (! empty($templates) && $found === '') {
+        while (!empty($templates) && $found === '') {
             $found = $this->find(array_shift($templates), $type) ?: '';
         }
 

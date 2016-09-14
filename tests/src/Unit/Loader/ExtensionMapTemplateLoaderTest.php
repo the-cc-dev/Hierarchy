@@ -17,7 +17,6 @@ use Brain\Hierarchy\Tests\TestCase;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class ExtensionMapTemplateLoaderTest extends TestCase
 {
@@ -33,7 +32,7 @@ class ExtensionMapTemplateLoaderTest extends TestCase
 
         $loader = new ExtensionMapTemplateLoader([
             'php' => $aLoader,
-            'twig' => $bLoader
+            'twig' => $bLoader,
         ]);
 
         assertSame('php!', $loader->load($path.'singular.php'));
@@ -56,7 +55,7 @@ class ExtensionMapTemplateLoaderTest extends TestCase
             },
             'twig' => function () use ($bLoader) {
                 return $bLoader;
-            }
+            },
         ]);
 
         assertSame('php!', $loader->load($path.'singular.php'));

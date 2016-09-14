@@ -13,12 +13,11 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchAuthor implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -26,7 +25,7 @@ final class BranchAuthor implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -34,21 +33,21 @@ final class BranchAuthor implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
         /** @var \WP_User $user */
         $user = $query->get_queried_object();
 
-        if (! $user instanceof \WP_User) {
+        if (!$user instanceof \WP_User) {
             return ['author'];
         }
 
         return [
             "author-{$user->user_nicename}",
             "author-{$user->ID}",
-            'author'
+            'author',
         ];
     }
 }

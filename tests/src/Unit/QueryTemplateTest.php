@@ -23,7 +23,6 @@ use Mockery;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class QueryTemplateTest extends TestCase
 {
@@ -212,7 +211,7 @@ class QueryTemplateTest extends TestCase
     {
         Functions::when('get_stylesheet_directory')->justReturn();
         Functions::when('get_template_directory')->justReturn();
-        
+
         $loader = Mockery::mock(TemplateLoaderInterface::class);
         $instance = QueryTemplate::instanceWithLoader($loader);
         $proxy = new Proxy($instance);

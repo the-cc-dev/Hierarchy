@@ -13,12 +13,11 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchTag implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -26,7 +25,7 @@ final class BranchTag implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -34,21 +33,21 @@ final class BranchTag implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
         /** @var \stdClass $term */
         $term = $query->get_queried_object();
 
-        if (! isset($term->slug) || ! isset($term->term_id)) {
+        if (!isset($term->slug) || !isset($term->term_id)) {
             return ['tag'];
         }
 
         return [
             "tag-{$term->slug}",
             "tag-{$term->term_id}",
-            'tag'
+            'tag',
         ];
     }
 }

@@ -13,7 +13,6 @@ namespace Brain\Hierarchy;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class FileExtensionPredicate
 {
@@ -25,6 +24,7 @@ class FileExtensionPredicate
     /**
      * @param string|string[] $extensions
      * @param string          $trimPattern
+     *
      * @return \string[]
      */
     public static function parseExtensions($extensions, $trimPattern = ". \t\n\r\0\x0B")
@@ -50,7 +50,8 @@ class FileExtensionPredicate
     }
 
     /**
-     * @param  string $templatePath
+     * @param string $templatePath
+     *
      * @return bool
      */
     public function __invoke($templatePath)

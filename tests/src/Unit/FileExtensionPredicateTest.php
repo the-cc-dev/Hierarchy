@@ -13,11 +13,9 @@ namespace Brain\Hierarchy\Tests\Unit;
 use Brain\Hierarchy\FileExtensionPredicate;
 use Brain\Hierarchy\Tests\TestCase;
 
-
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class FileExtensionPredicateTest extends TestCase
 {

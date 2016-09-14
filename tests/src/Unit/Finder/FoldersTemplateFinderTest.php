@@ -16,7 +16,6 @@ use Brain\Hierarchy\Tests\TestCase;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class FoldersTemplateFinderTest extends TestCase
 {
@@ -50,13 +49,13 @@ final class FoldersTemplateFinderTest extends TestCase
 
     public function testFindSeveralExtensions()
     {
-        $twigTemplate     = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.twig';
-        $phpTemplate      = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.php';
+        $twigTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.twig';
+        $phpTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/singular.php';
         $fallbackTemplate = getenv('HIERARCHY_TESTS_BASEPATH').'/files/single.php';
 
-        $folders    = [getenv('HIERARCHY_TESTS_BASEPATH').'/files'];
+        $folders = [getenv('HIERARCHY_TESTS_BASEPATH').'/files'];
         $twigFinder = new FoldersTemplateFinder($folders, [' TWIG ', 'php']);
-        $phpFinder  = new FoldersTemplateFinder($folders, ['.php', 'twig']);
+        $phpFinder = new FoldersTemplateFinder($folders, ['.php', 'twig']);
 
         assertSame($twigTemplate, $twigFinder->find('singular', 'singular'));
         assertSame($phpTemplate, $phpFinder->find('singular', 'singular'));

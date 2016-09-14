@@ -17,7 +17,6 @@ namespace Brain\Hierarchy\Finder;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class SubfolderTemplateFinder implements TemplateFinderInterface
 {
@@ -41,7 +40,7 @@ final class SubfolderTemplateFinder implements TemplateFinderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function find($template, $type)
     {
@@ -49,7 +48,7 @@ final class SubfolderTemplateFinder implements TemplateFinderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findFirst(array $templates, $type)
     {

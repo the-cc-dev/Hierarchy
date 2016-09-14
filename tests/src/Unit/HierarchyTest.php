@@ -18,7 +18,6 @@ use Brain\Hierarchy\Hierarchy;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 class HierarchyTest extends TestCase
 {
@@ -44,8 +43,8 @@ class HierarchyTest extends TestCase
         $this->setPrivateStaticVar('branches', $branchesBackup, $hierarchy);
 
         $expected = [
-            'foo'   => (new Stubs\BranchStubFoo())->leaves($query),
-            'bar'   => (new Stubs\BranchStubBar())->leaves($query),
+            'foo' => (new Stubs\BranchStubFoo())->leaves($query),
+            'bar' => (new Stubs\BranchStubBar())->leaves($query),
             'index' => ['index'],
         ];
 

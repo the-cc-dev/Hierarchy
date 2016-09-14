@@ -15,7 +15,7 @@ use Brain\Hierarchy\Branch\BranchInterface;
 class BranchStubFoo implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -23,7 +23,7 @@ class BranchStubFoo implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -31,7 +31,7 @@ class BranchStubFoo implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
@@ -42,7 +42,7 @@ class BranchStubFoo implements BranchInterface
 class BranchStubBar implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -50,7 +50,7 @@ class BranchStubBar implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -58,7 +58,7 @@ class BranchStubBar implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
@@ -69,7 +69,7 @@ class BranchStubBar implements BranchInterface
 class BranchStubBar2 implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -77,7 +77,7 @@ class BranchStubBar2 implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -85,7 +85,7 @@ class BranchStubBar2 implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
@@ -96,7 +96,7 @@ class BranchStubBar2 implements BranchInterface
 class BranchStubBaz implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -104,7 +104,7 @@ class BranchStubBaz implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -112,7 +112,7 @@ class BranchStubBaz implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {

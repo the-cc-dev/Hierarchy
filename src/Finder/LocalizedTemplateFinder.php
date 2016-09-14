@@ -29,7 +29,6 @@ namespace Brain\Hierarchy\Finder;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class LocalizedTemplateFinder implements TemplateFinderInterface
 {
@@ -52,7 +51,7 @@ final class LocalizedTemplateFinder implements TemplateFinderInterface
     {
         $this->finder = $finder ?: new FoldersTemplateFinder();
         $locale = get_locale();
-        if (! $locale || ! is_string($locale)) {
+        if (!$locale || !is_string($locale)) {
             return;
         }
         $this->folders = [filter_var($locale, FILTER_SANITIZE_URL)];
@@ -64,7 +63,7 @@ final class LocalizedTemplateFinder implements TemplateFinderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function find($template, $type)
     {

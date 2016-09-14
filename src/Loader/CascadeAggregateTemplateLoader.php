@@ -15,7 +15,6 @@ namespace Brain\Hierarchy\Loader;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class CascadeAggregateTemplateLoader implements AggregateTemplateLoaderInterface
 {
@@ -25,7 +24,7 @@ final class CascadeAggregateTemplateLoader implements AggregateTemplateLoaderInt
     private $loaders = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addLoader(TemplateLoaderInterface $loader, callable $predicate)
     {
@@ -35,7 +34,7 @@ final class CascadeAggregateTemplateLoader implements AggregateTemplateLoaderInt
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addLoaderFactory(callable $loaderFactory, callable $predicate)
     {
@@ -45,7 +44,7 @@ final class CascadeAggregateTemplateLoader implements AggregateTemplateLoaderInt
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load($templatePath)
     {
@@ -59,7 +58,7 @@ final class CascadeAggregateTemplateLoader implements AggregateTemplateLoaderInt
             }
 
             if (!$isFactory) {
-                /** @var \Brain\Hierarchy\Loader\TemplateLoaderInterface $loader */
+                /* @var \Brain\Hierarchy\Loader\TemplateLoaderInterface $loader */
                 return $loader->load($templatePath);
             }
 

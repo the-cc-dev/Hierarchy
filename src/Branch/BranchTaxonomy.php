@@ -13,12 +13,11 @@ namespace Brain\Hierarchy\Branch;
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class BranchTaxonomy implements BranchInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function name()
     {
@@ -26,7 +25,7 @@ final class BranchTaxonomy implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function is(\WP_Query $query)
     {
@@ -34,21 +33,21 @@ final class BranchTaxonomy implements BranchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function leaves(\WP_Query $query)
     {
         /** @var \stdClass $term */
         $term = $query->get_queried_object();
 
-        if (! isset($term->slug) || ! isset($term->taxonomy)) {
+        if (!isset($term->slug) || !isset($term->taxonomy)) {
             return ['taxonomy'];
         }
 
         return [
             "taxonomy-{$term->taxonomy}-{$term->slug}",
             "taxonomy-{$term->taxonomy}",
-            'taxonomy'
+            'taxonomy',
         ];
     }
 }

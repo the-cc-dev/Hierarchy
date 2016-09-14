@@ -15,14 +15,13 @@ namespace Brain\Hierarchy\Finder;
  *
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @package Hierarchy
  */
 final class CallbackTemplateFinder implements TemplateFinderInterface
 {
     use FindFirstTemplateTrait;
 
     /**
-     * @var callable $finder
+     * @var callable
      */
     private $finder;
 
@@ -35,7 +34,7 @@ final class CallbackTemplateFinder implements TemplateFinderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function find($template, $type)
     {
