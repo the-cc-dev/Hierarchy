@@ -22,7 +22,7 @@ final class BranchFrontPage implements BranchInterface
      */
     public function name()
     {
-        return 'front_page';
+        return 'frontpage';
     }
 
     /**

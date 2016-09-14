@@ -50,13 +50,11 @@ final class BranchPage implements BranchInterface
 
         $name = $pagename ? $pagename : $post->post_name;
 
-        $leaves = [
-            "page-{$name}",
-            "page-{$post->ID}",
-            'page',
-        ];
+        $leaves = ["page-{$name}"];
+        $post->ID and $leaves[]  = "page-{$post->ID}";
+        $leaves[] = 'page';
 
-        $template = $post->post_type === 'page'
+        $template = ($post->ID && $post->post_type === 'page')
             ? filter_var(get_page_template_slug($post), FILTER_SANITIZE_URL)
             : false;
 
