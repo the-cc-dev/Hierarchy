@@ -99,6 +99,39 @@ array(
 And if you compare this array with the [visual overview of template hierarchy](https://developer.wordpress.org/files/2014/10/template-hierarchy.png)
 you can see that is an accurate representation of the template hierarchy for a category query. 
 
+### Filter the Hierarchy
+
+Hierarchy provides a filter, `brain-hierarchy.branches` that allows to filter the branches that will
+be used to when "resolving" a query.
+
+The filter passes the array of branches, where each item is a **class name** of an object implementing
+`BranchInterface`. The array can be modified, but Hierarchy ensures that after the filter all the items
+are still an array of the same type.
+
+Considering that changing the branch will break core compatibility (it is possible to obtain a 
+completely different template hierarchy compared to the one core uses) I suggest to use this feature
+only if you are sure what you are going to do.
+
+It is also possible to avoid any filtering by instantiating `Hierachy` class with the `Hierachy::NOT_FILTERABLE`
+ flag.
+ 
+```php
+$hierarchy = new Hierachy(Hierachy::NOT_FILTERABLE);
+```
+
+Note that this will prevent `Hierachy` to fire the core `{$type}_template_hierachy` filter (introduced in WP 4.7).
+
+This hook gives the ability to filter a specific "branch" of the template hierarchy. 
+See ["Make WordPress" blog post](https://make.wordpress.org/core/2016/09/09/new-functions-hooks-and-behaviour-for-theme-developers-in-wordpress-4-7/) 
+for more details.
+
+Let me just cite from there:
+
+> It’s important to remember that the consistency of the template hierarchy in WordPress is what 
+makes standardised theme structures possible. 
+It’s highly recommended that you do not remove templates from the candidate hierarchy using these 
+new filters, unless you’re absolutely certain of what you’re doing.
+
 
 # Template Resolution
 
