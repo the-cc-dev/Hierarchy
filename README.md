@@ -16,6 +16,7 @@ Hierarchy
 
 - [What / Why?](#what--why)
 - [Template Hierarchy Representation](#template-hierarchy-representation)
+  - [Filter the Hierachy](#filter-the-hierarchy) 
 - [Template Resolution](#templates-resolution)
   - [Template Resolution Example](#templates-resolution-example)
 - [Introducing `QueryTemplate`](#introducing-querytemplate)
