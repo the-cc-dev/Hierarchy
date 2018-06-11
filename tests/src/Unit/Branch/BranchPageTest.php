@@ -10,6 +10,7 @@
 
 namespace Brain\Hierarchy\Tests\Unit\Branch;
 
+use Brain\Hierarchy\PostTemplates;
 use Brain\Monkey\Functions;
 use Brain\Hierarchy\Branch\BranchPage;
 use Brain\Hierarchy\Tests\TestCase;
@@ -57,10 +58,16 @@ final class BranchPageTest extends TestCase
         $post->post_name = 'foo';
         $post->post_type = 'page';
 
-        $query = new \WP_Query([], $post, ['pagename' => '']);
-        Functions::expect('get_page_template_slug')->with($post)->andReturn('');
+        $postTemplates = Mockery::mock(PostTemplates::class);
+        $postTemplates
+            ->shouldReceive('findFor')
+            ->once()
+            ->with($post)
+            ->andReturn('');
 
-        $branch = new BranchPage();
+        $query = new \WP_Query([], $post, ['pagename' => '']);
+
+        $branch = new BranchPage($postTemplates);
         assertSame(['page-foo', 'page-1', 'page'], $branch->leaves($query));
     }
 
@@ -71,10 +78,16 @@ final class BranchPageTest extends TestCase
         $post->post_name = 'foo';
         $post->post_type = 'page';
 
-        $query = new \WP_Query([], $post, ['pagename' => 'bar']);
-        Functions::expect('get_page_template_slug')->with($post)->andReturn('');
+        $postTemplates = Mockery::mock(PostTemplates::class);
+        $postTemplates
+            ->shouldReceive('findFor')
+            ->once()
+            ->with($post)
+            ->andReturn('');
 
-        $branch = new BranchPage();
+        $query = new \WP_Query([], $post, ['pagename' => 'bar']);
+
+        $branch = new BranchPage($postTemplates);
 
         assertSame(['page-bar', 'page-1', 'page'], $branch->leaves($query));
     }
@@ -86,11 +99,16 @@ final class BranchPageTest extends TestCase
         $post->post_name = 'foo';
         $post->post_type = 'page';
 
-        $query = new \WP_Query([], $post, ['pagename' => 'bar']);
-        Functions::expect('get_page_template_slug')->with($post)->andReturn('page-meh.php');
-        Functions::expect('validate_file')->with('page-meh.php')->andReturn(0);
+        $postTemplates = Mockery::mock(PostTemplates::class);
+        $postTemplates
+            ->shouldReceive('findFor')
+            ->once()
+            ->with($post)
+            ->andReturn('page-meh');
 
-        $branch = new BranchPage();
+        $query = new \WP_Query([], $post, ['pagename' => 'bar']);
+
+        $branch = new BranchPage($postTemplates);
 
         assertSame(['page-meh', 'page-bar', 'page-1', 'page'], $branch->leaves($query));
     }
@@ -103,29 +121,18 @@ final class BranchPageTest extends TestCase
         $post->post_type = 'page';
 
         $query = new \WP_Query([], $post, ['pagename' => 'bar']);
-        Functions::expect('get_page_template_slug')->with($post)->andReturn('page-templates/page-meh.php');
-        Functions::expect('validate_file')->with('page-templates/page-meh.php')->andReturn(0);
 
-        $branch = new BranchPage();
+        $postTemplates = Mockery::mock(PostTemplates::class);
+        $postTemplates
+            ->shouldReceive('findFor')
+            ->once()
+            ->with($post)
+            ->andReturn('page-templates/page-meh');
+
+        $branch = new BranchPage($postTemplates);
 
         $expected = ['page-templates/page-meh', 'page-bar', 'page-1', 'page'];
 
         assertSame($expected, $branch->leaves($query));
-    }
-
-    public function testLeavesPagePagenameTemplateNoValidate()
-    {
-        $post = Mockery::mock('\WP_Post');
-        $post->ID = 1;
-        $post->post_name = 'foo';
-        $post->post_type = 'page';
-
-        $query = new \WP_Query([], $post, ['pagename' => 'bar']);
-        Functions::expect('get_page_template_slug')->with($post)->andReturn('page-meh.php');
-        Functions::expect('validate_file')->with('page-meh.php')->andReturn(1);
-
-        $branch = new BranchPage();
-
-        assertSame(['page-bar', 'page-1', 'page'], $branch->leaves($query));
     }
 }

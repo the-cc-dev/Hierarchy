@@ -12,6 +12,7 @@ namespace Brain\Hierarchy\Tests\Functional;
 
 use Brain\Hierarchy\Hierarchy;
 use Brain\Hierarchy\Tests\TestCase;
+use Brain\Monkey\Functions;
 use Brain\Monkey\WP\Filters;
 
 /**
@@ -28,6 +29,8 @@ class HierarchyTest extends TestCase
         $post->ID = 1;
         $post->post_name = '%E3%81%B2%E3%82%89';
         $post->post_type = 'book';
+
+        Functions::when('get_page_template_slug')->justReturn(false);
 
         $query = new \WP_Query(
             ['is_single' => true, 'is_singular' => true],
@@ -75,6 +78,8 @@ class HierarchyTest extends TestCase
                    return $leaves;
                });
 
+        Functions::when('get_page_template_slug')->justReturn(false);
+
         $post = \Mockery::mock('WP_Post');
         $post->ID = 1;
         $post->post_name = '%E3%81%B2%E3%82%89';
@@ -115,6 +120,8 @@ class HierarchyTest extends TestCase
 
                    return $leaves;
                });
+
+        Functions::when('get_page_template_slug')->justReturn(false);
 
         $post = \Mockery::mock('WP_Post');
         $post->ID = 1;

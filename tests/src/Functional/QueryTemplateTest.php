@@ -32,8 +32,22 @@ class QueryTemplateTest extends TestCase
         $post->post_name = 'a-page';
         $post->post_type = 'page';
 
-        Functions::expect('get_page_template_slug')->with($post)->andReturn('page-templates/page-custom.php');
-        Functions::expect('validate_file')->with('page-templates/page-custom.php')->andReturn(0);
+        $theme = Mockery::mock('\WP_Theme');
+        $theme
+            ->shouldReceive('get_page_templates')
+            ->andReturn(['page-templates/page-custom.php' => 'Custom']);
+
+        Functions::expect('wp_get_theme')->andReturn($theme);
+
+        Functions::expect('get_page_template_slug')
+                 ->with($post)
+                 ->andReturn('page-templates/page-custom.php');
+        Functions::expect('validate_file')
+                 ->with('page-templates/page-custom.php')
+                 ->andReturn(0);
+        Functions::expect('wp_normalize_path')
+                 ->with('page-templates/page-custom.php')
+                 ->andReturn('page-templates/page-custom.php');
 
         $wpQuery = new \WP_Query(['is_page' => true], $post, ['pagename' => 'a-page']);
 

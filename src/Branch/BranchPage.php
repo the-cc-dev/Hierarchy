@@ -10,12 +10,28 @@
 
 namespace Brain\Hierarchy\Branch;
 
+use Brain\Hierarchy\PostTemplates;
+
 /**
  * @author  Giuseppe Mazzapica <giuseppe.mazzapica@gmail.com>
  * @license http://opensource.org/licenses/MIT MIT
  */
 final class BranchPage implements BranchInterface
 {
+
+    /**
+     * @var \Brain\Hierarchy\PostTemplates
+     */
+    private $postTemplates;
+
+    /**
+     * @param \Brain\Hierarchy\PostTemplates|null $postTemplates
+     */
+    public function __construct(PostTemplates $postTemplates = null)
+    {
+        $this->postTemplates = $postTemplates ?: new PostTemplates();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -53,15 +69,9 @@ final class BranchPage implements BranchInterface
         $post->ID and $leaves[] = "page-{$post->ID}";
         $leaves[] = 'page';
 
-        $template = ($post->ID && $post->post_type === 'page')
-            ? filter_var(get_page_template_slug($post), FILTER_SANITIZE_URL)
-            : false;
-
-        if (!empty($template) && validate_file($template) === 0) {
-            $dir = dirname($template);
-            $filename = pathinfo($template, PATHINFO_FILENAME);
-            $name = $dir === '.' ? $filename : "{$dir}/{$filename}";
-            array_unshift($leaves, $name);
+        if ($post->post_type === 'page') {
+            $template = $this->postTemplates->findFor($post);
+            $template and array_unshift($leaves, $template);
         }
 
         return $leaves;
