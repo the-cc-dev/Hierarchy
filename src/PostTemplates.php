@@ -66,7 +66,8 @@ class PostTemplates
         $templates = (array)wp_get_theme()->get_page_templates(null, $postType);
         foreach ($templates as $template => $header) {
             if ($template && is_string($template)) {
-                $this->templates[$postType][] = wp_normalize_path($template);
+                $sanitized = filter_var($template, FILTER_SANITIZE_URL);
+                $this->templates[$postType][] = wp_normalize_path($sanitized);
             }
         }
 
