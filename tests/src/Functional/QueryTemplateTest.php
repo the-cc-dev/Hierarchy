@@ -62,6 +62,9 @@ class QueryTemplateTest extends TestCase
         $post = Mockery::mock('\WP_Post');
         $post->ID = 1;
         $post->post_type = 'page';
+        $post->post_name = 'foo';
+
+        Functions::expect('get_page_template_slug')->with($post)->andReturn('');
 
         $wpQuery = new \WP_Query(['is_page' => true, 'is_singular' => true], $post);
 

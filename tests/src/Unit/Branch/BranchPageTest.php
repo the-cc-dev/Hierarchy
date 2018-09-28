@@ -22,6 +22,7 @@ use Mockery;
  */
 final class BranchPageTest extends TestCase
 {
+
     public function testLeavesNoPageNoPagename()
     {
         $post = Mockery::mock('\WP_Post');
@@ -132,6 +133,32 @@ final class BranchPageTest extends TestCase
         $branch = new BranchPage($postTemplates);
 
         $expected = ['page-templates/page-meh', 'page-bar', 'page-1', 'page'];
+
+        assertSame($expected, $branch->leaves($query));
+    }
+
+    public function testPageNameReturnTemplateIfNoPagename()
+    {
+        Functions::when('sanitize_title')->alias('strtolower');
+
+        $post = Mockery::mock('\WP_Post');
+        $post->ID = 1;
+        $post->post_name = '';
+        $post->post_title = 'foo';
+        $post->post_type = 'page';
+
+        $query = new \WP_Query(['is_preview' => true], $post, ['page_id' => 1, 'pagename' => '']);
+
+        $postTemplates = Mockery::mock(PostTemplates::class);
+        $postTemplates
+            ->shouldReceive('findFor')
+            ->once()
+            ->with($post)
+            ->andReturn('page-foo');
+
+        $branch = new BranchPage($postTemplates);
+
+        $expected = ['page-foo', 'page-1', 'page'];
 
         assertSame($expected, $branch->leaves($query));
     }

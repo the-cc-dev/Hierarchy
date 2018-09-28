@@ -55,25 +55,26 @@ final class BranchPage implements BranchInterface
     {
         /** @var \WP_Post $post */
         $post = $query->get_queried_object();
-
         $post instanceof \WP_Post or $post = new \WP_Post((object) ['ID' => 0]);
+
+        $template = $this->postTemplates->findFor($post);
         $pagename = $query->get('pagename');
+        (!$pagename && $post->ID) and $pagename = $post->post_name;
 
-        if (empty($post->post_name) && empty($pagename)) {
-            return ['page'];
+        $leaves = $template ? [$template] : [];
+        $baseLeaves = $post->ID ? ["page-{$post->ID}", 'page'] : ['page'];
+
+        if (!$pagename) {
+            return array_merge($leaves, $baseLeaves);
         }
 
-        $name = $pagename ? $pagename : $post->post_name;
-
-        $leaves = ["page-{$name}"];
-        $post->ID and $leaves[] = "page-{$post->ID}";
-        $leaves[] = 'page';
-
-        if ($post->post_type === 'page') {
-            $template = $this->postTemplates->findFor($post);
-            $template and array_unshift($leaves, $template);
+        $pagenameDecoded = urldecode($pagename);
+        if ($pagenameDecoded !== $pagename) {
+            $leaves[] = "page-{$pagenameDecoded}";
         }
 
-        return $leaves;
+        $leaves[] = "page-{$pagename}";
+
+        return array_merge($leaves, $baseLeaves);
     }
 }
